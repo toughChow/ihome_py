@@ -7,13 +7,8 @@ from flask_wtf import CSRFProtect
 from config import config_map
 from ihome import api_1_0
 
-import redis
-
 # 数据库
 db = SQLAlchemy()
-
-# 创建redis连接对象
-redis_store = None
 
 
 # 工厂模式
@@ -31,10 +26,6 @@ def create_app(config_name):
 
     # 使用app初始化db
     db.init_app(app)
-
-    # 初始化redis
-    global redis_store
-    redis_store = redis.StrictRedis(host=config_class.REDIS_HOST, port=config_class.REDIS_PORT)
 
     # 利用 flask-session, 讲session数据保存到redis中
     Session(app)
