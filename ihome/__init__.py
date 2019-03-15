@@ -36,6 +36,7 @@ def create_app(config_name):
     # 注册蓝图
     from ihome import controller
     app.register_blueprint(controller.api, url_prefix="/api/v1.0")
+
     app.register_blueprint(controller.default)
 
     return app
