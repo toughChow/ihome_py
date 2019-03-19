@@ -5,8 +5,9 @@ from flask import render_template, Blueprint, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from ihome import db
-from models import User
-from utils.response_code import RET
+
+from ihome.models import User
+from ihome.utils.response_code import RET
 from . import api, default
 
 

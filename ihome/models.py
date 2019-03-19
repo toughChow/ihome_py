@@ -1,5 +1,4 @@
 # -*- coding:utf8 -*-
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from ihome import db  # db是app/__init__.py生成的关联后的SQLAlchemy实例
 
