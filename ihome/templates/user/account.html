@@ -107,7 +107,11 @@
                 <ul class="mui-table-view mui-table-view-chevron" style="margin-top: 60px">
                     <li class="mui-table-view-cell mui-media">
                         <a class="mui-navigate-right" href="/my_info">
-                            <img class="mui-media-object mui-pull-left head-img" id="head-img" src="{{ user.avatar_url }}">
+                            {% if user.avatar_url %}
+                                <img class="mui-media-object mui-pull-left head-img" id="head-img" src="{{ user.avatar_url }}">
+                            {% else %}
+                                <img class="mui-media-object mui-pull-left head-img" id="head-img" src="/static/images/avatar.png">
+                            {% endif %}
                             <div class="mui-media-body">
                                 Hello {{ user.username }}
                                 <p class='mui-ellipsis'>账号:{{ user.username }}</p>
