@@ -5,7 +5,6 @@ from flask import render_template, Blueprint, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from ihome import db
-
 from ihome.models import User
 from ihome.utils.response_code import RET
 from . import api, default
@@ -15,7 +14,12 @@ from . import api, default
 @default.route('/', methods=['GET'])
 def index():
     print("coming")
-    return render_template("index.html")
+    user_id = session.get("user_id")
+    if user_id is not None:
+        print(user_id)
+        return render_template("index.html", user_id=user_id)
+    else:
+        return render_template("index.html")
 
 
 # 跳转注册页
@@ -37,7 +41,8 @@ def reg():
             if user is not None:
                 return jsonify(errno=RET.DATAEXIST, errmsg="手机已存在")
             password = generate_password_hash(password)
-            user = User(username=username, password=password, mobile=mobile)
+            avatar_url = "/static/images/avatar.png"
+            user = User(username=username, password=password, mobile=mobile, avatar_url=avatar_url)
             db.session.add(user)
             db.session.commit()
             return jsonify(errno=RET.OK, errmsg="注册成功")
@@ -49,9 +54,6 @@ def reg():
 @default.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        username = session.get("username")
-        if username is not None:
-            print(username)
         return render_template("login.html")
     else:
         req_dict = request.get_json()
@@ -77,3 +79,16 @@ def login():
         # rows = user_dal.User_Dal.query(sql)
         # print('查询结果>>>', rows)
         # return render_template('user/index.html')
+
+
+# 跳转登录页
+@default.route("/logout", methods=['GET'])
+def logout():
+    session.pop("username")
+    print(session.get('username'))
+    session.pop("mobile")
+    print(session.get('mobile'))
+    session.pop("user_id")
+    print(session.get('user_id'))
+    session.clear()
+    return render_template('index.html')
