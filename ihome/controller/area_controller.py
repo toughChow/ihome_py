@@ -17,9 +17,12 @@ def index():
 @api.route('/area/get', methods=['GET'])
 def get():
     areas = Area.query.all()
+    print(areas)
+    print(type(areas))
     areas_dict = []
     for a in areas:
         areas_dict.append(a.to_dict())
+    print(areas_dict)
 
     # 将数据转换为json字符串
     resp_dict = dict(errno=RET.OK, errmsg="OK", data=areas_dict)

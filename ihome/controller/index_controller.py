@@ -1,14 +1,14 @@
 # -*- coding:utf8 -*-
 
 
-from flask import render_template, Blueprint
+from flask import render_template, request
 from . import api, default
+from models import House, HouseTag
 
 
 # 跳转首页
 @default.route('/', methods=['GET'])
 def index():
-    print("coming")
     return render_template("index.html")
 
 
