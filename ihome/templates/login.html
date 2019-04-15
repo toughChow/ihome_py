@@ -94,32 +94,34 @@
     <h1 class="mui-title">登录</h1>
 </header>
 <div class="mui-content">
-    <form id='login-form' class="mui-input-group">
-        <div class="mui-input-row">
-            <label>账号</label>
-            <input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+    <div class="mui-card">
+        <!--页眉，放置标题-->
+        <div class="mui-card-header">
+            <img class="tc-logo-img" src="/static/images/logo.png" style="width: 128px;height: 59px;margin: 0 auto;">
         </div>
-        <div class="mui-input-row">
-            <label>密码</label>
-            <input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
-        </div>
-    </form>
-    <form class="mui-input-group">
-        <ul class="mui-table-view mui-table-view-chevron">
-            <li class="mui-table-view-cell">
-                自动登录
-                <div id="autoLogin" class="mui-switch">
-                    <div class="mui-switch-handle"></div>
+        <!--内容区-->
+        <div class="mui-card-content">
+            <form class="mui-input-group register-form">
+                <div class="mui-input-row">
+                    <label>账号</label>
+                    <input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
                 </div>
-            </li>
-        </ul>
-    </form>
-    <div class="mui-content-padded">
-        <button id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary">登录</button>
-        <div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+                <div class="mui-input-row">
+                    <label>密码</label>
+                    <input id='password' type="password" class="mui-input mui-input-clear " placeholder="请输入密码">
+                </div>
+                <div class="mui-button-row">
+                    <button type="button" id='login' class="mui-btn mui-btn-primary" style="width: 90%;">登录</button>
+                </div>
+            </form>
+        </div>
+        <!--页脚，放置补充信息或支持的操作-->
+        <div class="mui-card-footer" style="height: 20px;margin-top: 10px;">
+            <div class="mui-content-padded">
+                <p class="aj-msg">木有账号?点击前往<a href="/reg">注册</a></p>
+            </div>
         </div>
     </div>
-    <div class="mui-content-padded oauth-area">
 
     </div>
 </div>
@@ -127,5 +129,46 @@
 <!--<script src="js/mui.enterfocus.js"></script>-->
 <!--<script src="js/app.js"></script>-->
 </body>
+
+<script>
+$('#login').on('click', function (e) {
+        e.preventDefault()
+        mui(".mui-input").each(function () {
+            //若当前input为空，则alert提醒
+            if (!this.value || this.value.trim() == "") {
+                var label = this.previousElementSibling;
+                mui.alert(label.innerText + "不允许为空");
+                check = false;
+                return false;
+            }
+        }); //校验通过，继续执行业务逻辑
+        var username = $('#account').val()
+        var password = $('#password').val()
+        if (username == '' || password == '') {
+            return
+        }
+        var req_data = {
+            username: username,
+            password: password
+        }
+        var req_json = JSON.stringify(req_data)
+        $.ajax({
+            url: '/login',
+            type: 'post',
+            data: req_json,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (resp) {
+                console.log(resp)
+                if (resp.errno !== '0') {
+                    mui.alert(resp.errmsg);
+                } else {
+                    location.href = "/"
+                    mui.alert(resp.errmsg);
+                }
+            }
+        })
+    })
+</script>
 
 </html>
