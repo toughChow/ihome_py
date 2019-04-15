@@ -7,7 +7,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from ihome import db
 from ihome.models import User
 from ihome.utils.response_code import RET
+from flask import render_template, request
 from . import api, default
+from ihome.models import House, HouseTag
 
 
 # 跳转首页
@@ -51,7 +53,7 @@ def reg():
 
 
 # 跳转登录页
-@default.route("/login", methods=['GET', 'POST'])
+@default.route("/login", methods=['GET'])
 def login():
     if request.method == 'GET':
         return render_template("login.html")
