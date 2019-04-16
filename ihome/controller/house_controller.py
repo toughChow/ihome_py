@@ -5,7 +5,7 @@ from flask import request, jsonify, render_template
 from . import api, default
 from ihome.utils.response_code import RET
 from ihome import db
-from models import House, Area, HouseTag, HouseImage, Community, Facility, HouseFacility
+from ihome.models import House, Area, HouseTag, HouseImage, Community, Facility, HouseFacility
 import json
 
 
@@ -19,15 +19,18 @@ def house_list():
     param_price = request.args.get("price")
     param_kind = request.args.get("kind")
     param_condition = request.args.get("condition")
+    param_title = request.args.get("title")
     page_size = request.args.get("page_size", default=10)
     page_no = request.args.get("page_no", default=1)
     page_no = int(page_no)
     # 拼接查询条件
-    filter = house_list_filter(param_kind, param_price, param_condition)
+    # filter = house_list_filter(param_kind, param_price, param_condition, param_title)
+    list_params = house_list_filter(param_kind, param_price, param_condition, param_title)
     print(filter)
     page_query = None
     if filter:
-        page_query = House.query.filter(*filter).order_by(House.create_time.desc()).paginate(page_no, page_size, False)
+        page_query = House.query.filter(*list_params).order_by(House.create_time.desc()).paginate(page_no, page_size,
+                                                                                                  False)
     else:
         page_query = House.query.order_by(House.create_time.desc()).paginate(page_no, page_size, False)
     print(page_query)
@@ -116,12 +119,24 @@ def house_detail():
     print(data)
     return render_template('house/detail.html', h=data)
 
-
-def house_list_filter(kind, price, condition):
-    if kind != '':
-        d = {
-            House.kind == kind
-        }
-        return d
-    else:
-        return None
+# 首页查询条件          类型  价格    筛选（待定）  标题
+def house_list_filter(kind, price, condition, title):
+    params = []
+    if kind:
+        params.append(House.kind == kind)
+    if price:
+        price = int(price)
+        if price == 0:
+            params.append(House.price <= 1500)
+        elif price == 1:
+            params.append(House.price > 1500)
+            params.append(House.price <= 3000)
+        elif price == 2:
+            params.append(House.price > 3000)
+            params.append(House.price <= 4500)
+        elif price == 3:
+            params.append(House.price > 4500)
+    if title:
+        tag = '%' + title + '%'
+        params.append(House.title.like(tag))
+    return params

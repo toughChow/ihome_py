@@ -100,7 +100,7 @@
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
         <!--<h1 class="mui-title">cardview（卡片视图）</h1>-->
         <div class="mui-input-row mui-search" style="margin:0 82px;position: absolute;">
-            <input type="search" class="mui-input-clear" placeholder="搜索">
+            <input type="search" class="mui-input-clear" id="title" placeholder="搜索">
         </div>
         <button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">登录</button>
     </div>
@@ -141,16 +141,16 @@
     <div id="popover" class="mui-popover mui-bar-popover mui-bar-kind-popover">
         <div class="mui-popover-arrow" style="left:16px;"></div>
         <ul class="mui-table-view">
-            <li class="mui-table-view-cell" data-value="-1">不限</a></li>
-            <li class="mui-table-view-cell" data-value="0">普通住房</a></li>
-            <li class="mui-table-view-cell" data-value="1">学区房</a></li>
+            <li class="mui-table-view-cell" data-value="">不限</li>
+            <li class="mui-table-view-cell" data-value="0">普通住房</li>
+            <li class="mui-table-view-cell" data-value="1">学区房</li>
         </ul>
     </div>
 
     <div id="pricePopover" class="mui-popover mui-bar-popover mui-bar-price-popover">
         <div class="mui-popover-arrow"></div>
         <ul class="mui-table-view">
-            <li class="mui-table-view-cell" data-value="-1">不限</a></li>
+            <li class="mui-table-view-cell" data-value="">不限</li>
             <li class="mui-table-view-cell" data-value="0">0-1500</li>
             <li class="mui-table-view-cell" data-value="1">1500-3000</li>
             <li class="mui-table-view-cell" data-value="2">3000-4500</li>
@@ -168,13 +168,14 @@
         var totalPage; // 总页数
         var kind = '';
         var price = '';
+        var title = '';
 
         // 加载数据
         function getList() {
             var result = "";
 
             $.ajax({
-                url: '/api/v1.0/house/list?page_no=' + counter + '&price=' + price + '&kind=' + kind,
+                url: '/api/v1.0/house/list?page_no=' + counter + '&price=' + price + '&kind=' + kind + '&title=' + title,
                 type: 'get',
                 dataType: 'json',
                 timeout: 10000,
@@ -251,8 +252,12 @@
         // 选择价位
         $('.mui-bar-price-popover .mui-table-view-cell').on('click', function () {
             console.log($(this).attr("data-value"))
-            $('#popover1').text($(this).text())
             price = $(this).attr("data-value")
+            if (price == '') {
+                $('#popover1').text('价格')
+            } else {
+                $('#popover1').text($(this).text())
+            }
             mui('#pricePopover').popover('hide')
             initPage()
             getList()
@@ -261,8 +266,13 @@
         // 选择类型
         $('.mui-bar-kind-popover .mui-table-view-cell').on('click', function () {
             console.log($(this).attr("data-value"))
-            $('#popover0').text($(this).text())
             kind = $(this).attr("data-value")
+            if (kind == '') {
+                $('#popover0').text('类型')
+
+            } else {
+                $('#popover0').text($(this).text())
+            }
             console.log("kind:" + kind)
             mui('#popover').popover('hide')
             initPage()
@@ -274,6 +284,14 @@
             counter = 1
             $('#pullrefresh .mui-scroll .mui-card').remove()
         }
+
+        $('#title').on('keypress', function (e) {
+            if (e.which == 13) {
+                title = $(this).val()
+                initPage()
+                getList()
+            }
+        })
     })
 
 </script>

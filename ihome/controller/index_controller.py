@@ -10,7 +10,7 @@ from ihome import db
 from ihome.models import User
 from ihome.utils.response_code import RET
 from . import api, default
-from models import House, HouseTag
+from ihome.models import House, HouseTag
 
 
 # 跳转首页

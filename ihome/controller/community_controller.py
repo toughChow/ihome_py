@@ -3,7 +3,7 @@
 
 from flask import render_template, request
 from . import api, default
-from models import Community
+from ihome.models import Community
 
 
 # 查询小区信息
