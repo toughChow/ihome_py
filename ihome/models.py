@@ -182,6 +182,64 @@ class Community(db.Model):
             return d
         return None
 
+
+class HouseType(db.Model):
+    """房屋类型"""
+    __tablename__ = "t_house_type"
+    __table_args__ = {"useexisting": True}
+
+    type_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(10))
+
+    def to_dict(self):
+        """将对象转换为字典"""
+        d = {
+            "aid": self.type_id,
+            "aname": self.name
+        }
+        return d
+
+
+class Facility(db.Model):
+    """房屋类型"""
+    __tablename__ = "t_facility"
+    __table_args__ = {"useexisting": True}
+
+    facility_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    icon = db.Column(db.String(50))
+
+
+class Tag(db.Model):
+    """房屋类型"""
+    __tablename__ = "t_house_tag"
+    __table_args__ = {"useexisting": True}
+
+    tag_id = db.Column(db.Integer, primary_key=True)
+    house_id = db.Column(db.Integer)
+    content = db.Column(db.String(11))
+
+
+class HouseFacility(db.Model):
+    """房屋类型"""
+    __tablename__ = "t_house_facility"
+    __table_args__ = {"useexisting": True}
+
+    id = db.Column(db.Integer, primary_key=True)
+    house_id = db.Column(db.Integer)
+    facility_id = db.Column(db.Integer)
+
+
+class HouseImg(db.Model):
+    """房屋类型"""
+    __tablename__ = "t_house_image"
+    __table_args__ = {"useexisting": True}
+
+    image_id = db.Column(db.Integer, primary_key=True)
+    house_id = db.Column(db.Integer)
+    url = db.Column(db.String(255))
+
+
 class User(db.Model):
     """用户"""
 
