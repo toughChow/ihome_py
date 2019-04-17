@@ -1,3 +1,6 @@
 .idea/
 flask_session/
+__pycache__/
 ihome/static/images/avatar
+ihome/__pycache__/
+ihome/controller/__pycache__

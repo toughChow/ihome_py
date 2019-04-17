@@ -199,15 +199,15 @@ class HouseType(db.Model):
         }
         return d
 
-
-class Facility(db.Model):
-    """房屋类型"""
-    __tablename__ = "t_facility"
-    __table_args__ = {"useexisting": True}
-
-    facility_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    icon = db.Column(db.String(50))
+#
+# class Facility(db.Model):
+#     """房屋类型"""
+#     __tablename__ = "t_facility"
+#     __table_args__ = {"useexisting": True}
+#
+#     facility_id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(50))
+#     icon = db.Column(db.String(50))
 
 
 class Tag(db.Model):
@@ -219,15 +219,15 @@ class Tag(db.Model):
     house_id = db.Column(db.Integer)
     content = db.Column(db.String(11))
 
-
-class HouseFacility(db.Model):
-    """房屋类型"""
-    __tablename__ = "t_house_facility"
-    __table_args__ = {"useexisting": True}
-
-    id = db.Column(db.Integer, primary_key=True)
-    house_id = db.Column(db.Integer)
-    facility_id = db.Column(db.Integer)
+#
+# class HouseFacility(db.Model):
+#     """房屋类型"""
+#     __tablename__ = "t_house_facility"
+#     __table_args__ = {"useexisting": True}
+#
+#     id = db.Column(db.Integer, primary_key=True)
+#     house_id = db.Column(db.Integer)
+#     facility_id = db.Column(db.Integer)
 
 
 class HouseImg(db.Model):
