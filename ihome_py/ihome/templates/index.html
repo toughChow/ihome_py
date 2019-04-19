@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    {% include "common-js.html" %}
+    {% include "common-css.html" %}
+    <!--App自定义的css-->
+    <style>
+        * {
+            touch-action: none;
+        }
+
+        .house-title {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .house-brief {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0;
+        }
+
+        .school-tag {
+            position: absolute;
+            z-index: 20;
+            top: 15px;
+            border-radius: unset;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+        }
+
+        .mui-card .mui-card-content .mui-card-content-inner {
+            padding: 10px 15px;
+        }
+
+        .mui-card .mui-card-content .mui-card-content-inner p {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .mui-content {
+            top: 40px;
+        }
+
+        .mui-bar-nav {
+            height: 77px;
+        }
+
+        .mui-table-view-cell {
+            padding: 7px 15px;
+        }
+
+        .mui-navigate-right:after, .mui-push-right:after {
+            right: 15px;
+            content: '\e581';
+        }
+
+        .mui-bar-popover {
+            width: 30%;
+        }
+
+        .mui-bar-price-popover {
+            width: 50%;
+        }
+
+        .mui-table-view-cell:after {
+            right: 15px;
+        }
+
+        .mui-table-view {
+            text-align: center;
+        }
+
+        .mui-popover.mui-bar-price-popover .mui-table-view {
+            width: 100%;
+        }
+
+        .mui-bar-nav ~ .mui-content {
+            padding-top: 77px;
+        }
+
+        .mui-content {
+            top: 77px;
+        }
+    </style>
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+    <div style="height: 44px">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <!--<h1 class="mui-title">cardview（卡片视图）</h1>-->
+        <div class="mui-input-row mui-search" style="margin:0 82px;position: absolute;">
+            <input type="search" class="mui-input-clear" placeholder="搜索">
+        </div>
+        {% if user_id %}
+        <a class="mui-pull-right" href="/account"><span class="mui-icon mui-icon-contact"></span></a>
+        {% else %}
+            <a class="mui-pull-right" href="/login" style="margin-top: 10px">登录</a>
+        {% endif %}
+    </div>
+    <div class="mui-row">
+        <div class="mui-col-sm-3 mui-col-xs-4">
+            <li class="mui-table-view-cell">
+                <a href="#popover" id="popover0" class="mui-navigate-right">
+                    类型
+                </a>
+                <!--<a href="#popover" id="openPopover" class="mui-btn mui-btn-primary mui-btn-block">打开弹出菜单</a>-->
+            </li>
+        </div>
+        <div class="mui-col-sm-3 mui-col-xs-4">
+            <li class="mui-table-view-cell">
+                <a href="#pricePopover" id="popover1" class="mui-navigate-right">
+                    价格
+                </a>
+            </li>
+        </div>
+        <div class="mui-col-sm-3 mui-col-xs-4">
+            <li class="mui-table-view-cell">
+                <a href="#pricePopover" id="popover2" class="mui-navigate-right">
+                    筛选
+                </a>
+            </li>
+        </div>
+    </div>
+</header>
+<div class="mui-content">
+    <!--<div class="mui-table-view">-->
+    <!--<div class="mui-card">
+        <a href="/house/detail?id=1">
+            <span class="mui-badge mui-badge-primary school-tag">学区房</span>
+            <div class="mui-card-header mui-card-media"
+                 style="height:40vw;background-image:url('static/vendor/mui/images/cbd.jpg')"></div>
+            <div class="mui-card-content">
+                <div class="mui-card-content-inner">
+                    <p style="color: #333;font-weight: bold" class="house-title">这里显示文章摘要，让读者对文章内容有个粗略的概括了解大概须知</p>
+                    <p>
+                        <span class="mui-badge mui-badge-primary">精装修</span>
+                        <span class="mui-badge mui-badge-primary">就近轻轨站</span>
+                        <span class="mui-badge mui-badge-primary">超市</span>
+                        <span class="mui-badge mui-badge-primary">菜市场</span>
+                        <span class="mui-badge mui-badge-primary">公交车站</span>
+                    </p>
+                    <p class="house-brief"><span>2室主卧 | 88㎡ | 竹山中学</span><span
+                            style="color: red;font-weight: bold">￥2000</span></p>
+                    <div></div>
+                </div>
+            </div>
+        </a>
+    </div>-->
+    <!--</div>-->
+
+
+    <div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+        <div class="mui-scroll">
+            <div class="order_list">
+            </div>
+        </div>
+    </div>
+
+    <div id="popover" class="mui-popover mui-bar-popover mui-bar-kind-popover">
+        <div class="mui-popover-arrow" style="left:16px;"></div>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell" data-value="0">普通住房</a></li>
+            <li class="mui-table-view-cell" data-value="1">学区房</a></li>
+        </ul>
+    </div>
+
+    <div id="pricePopover" class="mui-popover mui-bar-popover mui-bar-price-popover">
+        <div class="mui-popover-arrow"></div>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell" data-value="0">0-1500</li>
+            <li class="mui-table-view-cell" data-value="1">1500-3000</li>
+            <li class="mui-table-view-cell" data-value="2">3000-4500</li>
+            <li class="mui-table-view-cell" data-value="3">4500以上</li>
+        </ul>
+    </div>
+
+</div>
+</body>
+<script>
+    $(function () {
+
+        var counter = 1; // 计数器
+        var pageNo = 1; // 当前页码
+        var totalPage; // 总页数
+        var kind = '';
+        var price = '';
+
+        function getList() {
+            var result = "";
+
+            $.ajax({
+                url: '/api/v1.0/house/list?page_no=' + counter + '&price=' + price + '&kind=' + kind,
+                type: 'get',
+                dataType: 'json',
+                timeout: 10000,
+                data: {},
+                error: function (error) {
+                    console.log('请求失败')
+                },
+                success: function (res) {
+                    console.log(res)
+                    totalPage = res.data.total_page
+                    pageNo = res.data.current_page
+                    var data = res.data.data
+
+                    $.each(data, function (i, e) {
+                        console.log(e.kind)
+                        let tag = "";
+                        $.each(e.tag, function (ind, ele) {
+                            tag += '<span class="mui-badge mui-badge-primary">' + ele.content + '</span>\n'
+                        })
+                        let schoolTag = ""
+                        if (e.kind == 1) {
+                            schoolTag = '<span class="mui-badge mui-badge-primary school-tag">学区房</span>\n'
+                        }
+                        let houseImg = ""
+                        if (e.house_img !== "" && e.house_img !== null) {
+                            houseImg = '<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(' + e.house_img + ')"></div>\n'
+                        } else {
+                            houseImg = '<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(\'static/vendor/mui/images/cbd.jpg\')"></div>\n'
+                        }
+                        result += '<div class="mui-card" data-url="/house/detail?id=' + e.house_id + '">\n' + schoolTag + houseImg +
+                            '           <div class="mui-card-content">\n' +
+                            '                <div class="mui-card-content-inner">\n' +
+                            '                    <p style="color: #333;font-weight: bold" class="house-title">' + e.title + '</p>\n' +
+                            '                    <p>' + tag + '</p>\n' +
+                            '                    <p class="house-brief"><span>2室主卧 | 88㎡ | 竹山中学</span><span\n' +
+                            '                           style="color: red;font-weight: bold">￥' + e.price + '</span></p>\n' +
+                            '                </div>\n' +
+                            '           </div>\n' +
+                            '        </div>'
+                    })
+                    $(result).insertBefore('#pullrefresh .mui-scroll .order_list');
+                }
+            })
+        }
+
+
+        mui.init({
+            pullRefresh: {
+                container: '#pullrefresh',//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+                up: {
+                    height: 50,//可选.默认50.触发上拉加载拖动距离
+                    auto: true,//可选,默认false.自动上拉加载一次
+                    contentrefresh: "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+                    contentnomore: '没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+                    callback: pullupRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+                }
+            }
+        });
+
+
+        function pullupRefresh() {
+            setTimeout(function () {
+                getList();
+                mui('#pullrefresh').pullRefresh().endPullupToRefresh((++counter > totalPage));
+            }, 500);
+        }
+
+        //mui触屏点击
+        $("#pullrefresh").on('tap', '.mui-card', function (event) {
+            var url = $(this).attr("data-url");
+            location.href = url;
+        });
+
+        $('.mui-bar-price-popover .mui-table-view-cell').on('click', function () {
+            console.log($(this).attr("data-value"))
+            $('#popover1').text($(this).text())
+            price = $(this).attr("data-value")
+            mui('#pricePopover').popover('hide')
+            initPage()
+            getList()
+        })
+
+        $('.mui-bar-kind-popover .mui-table-view-cell').on('click', function () {
+            console.log($(this).attr("data-value"))
+            $('#popover0').text($(this).text())
+            kind = $(this).attr("data-value")
+            console.log("kind:" + kind)
+            mui('#popover').popover('hide')
+            initPage()
+            getList()
+        })
+
+        function initPage() {
+            counter = 1
+            $('#pullrefresh .mui-scroll .mui-card').remove()
+        }
+    })
+
+</script>
+</html>

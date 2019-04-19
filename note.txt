@@ -1,8 +1,0 @@
-1.安装依赖
-pip install -r requirements.txt
-
-2.项目运行
-run -> Edit Configurations -> Flask server
-    * Target type 选择 Script path
-    * Target 选择该目录下manage.py
-    * Working directory 选择当前项目

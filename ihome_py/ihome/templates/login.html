@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title></title>
+    {% include "common-js.html" %}
+    {% include "common-css.html" %}
+    <style>
+        .area {
+            margin: 20px auto 0px auto;
+        }
+
+        .mui-input-group {
+            margin-top: 10px;
+        }
+
+        .mui-input-group:first-child {
+            margin-top: 20px;
+        }
+
+        .mui-input-group label {
+            width: 22%;
+        }
+
+        .mui-input-row label ~ input,
+        .mui-input-row label ~ select,
+        .mui-input-row label ~ textarea {
+            width: 78%;
+        }
+
+        .mui-checkbox input[type=checkbox],
+        .mui-radio input[type=radio] {
+            top: 6px;
+        }
+
+        .mui-content-padded {
+            margin-top: 25px;
+        }
+
+        .mui-btn {
+            padding: 10px;
+        }
+
+        .link-area {
+            display: block;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .spliter {
+            color: #bbb;
+            padding: 0px 8px;
+        }
+
+        .oauth-area {
+            position: absolute;
+            bottom: 20px;
+            left: 0px;
+            text-align: center;
+            width: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .oauth-area .oauth-btn {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-size: 30px 30px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            margin: 0px 20px;
+            /*-webkit-filter: grayscale(100%); */
+            border: solid 1px #ddd;
+            border-radius: 25px;
+        }
+
+        .oauth-area .oauth-btn:active {
+            border: solid 1px #aaa;
+        }
+
+        .oauth-area .oauth-btn.disabled {
+            background-color: #ddd;
+        }
+    </style>
+
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+    <h1 class="mui-title">登录</h1>
+</header>
+<div class="mui-content">
+    <div class="mui-card">
+        <!--页眉，放置标题-->
+        <div class="mui-card-header">
+            <img class="tc-logo-img" src="/static/images/logo.png" style="width: 128px;height: 59px;margin: 0 auto;">
+        </div>
+        <!--内容区-->
+        <div class="mui-card-content">
+            <form class="mui-input-group register-form">
+                <div class="mui-input-row">
+                    <label>账号</label>
+                    <input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+                </div>
+                <div class="mui-input-row">
+                    <label>密码</label>
+                    <input id='password' type="password" class="mui-input mui-input-clear " placeholder="请输入密码">
+                </div>
+                <div class="mui-button-row">
+                    <button type="button" id='login' class="mui-btn mui-btn-primary" style="width: 90%;">登录</button>
+                </div>
+            </form>
+        </div>
+        <!--页脚，放置补充信息或支持的操作-->
+        <div class="mui-card-footer" style="height: 20px;margin-top: 10px;">
+            <div class="mui-content-padded">
+                <p class="aj-msg">木有账号?点击前往<a href="/reg">注册</a></p>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+<!--<script src="js/mui.min.js"></script>-->
+<!--<script src="js/mui.enterfocus.js"></script>-->
+<!--<script src="js/app.js"></script>-->
+</body>
+
+<script>
+$('#login').on('click', function (e) {
+        e.preventDefault()
+        mui(".mui-input").each(function () {
+            //若当前input为空，则alert提醒
+            if (!this.value || this.value.trim() == "") {
+                var label = this.previousElementSibling;
+                mui.alert(label.innerText + "不允许为空");
+                check = false;
+                return false;
+            }
+        }); //校验通过，继续执行业务逻辑
+        var username = $('#account').val()
+        var password = $('#password').val()
+        if (username == '' || password == '') {
+            return
+        }
+        var req_data = {
+            username: username,
+            password: password
+        }
+        var req_json = JSON.stringify(req_data)
+        $.ajax({
+            url: '/login',
+            type: 'post',
+            data: req_json,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (resp) {
+                console.log(resp)
+                if (resp.errno !== '0') {
+                    mui.alert(resp.errmsg);
+                } else {
+                    location.href = "/"
+                    mui.alert(resp.errmsg);
+                }
+            }
+        })
+    })
+</script>
+
+</html>
