@@ -4,6 +4,8 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header"  th:content="${_csrf.headerName}"/>
 
     <title>Sleek - Admin Dashboard Template</title>
 
@@ -121,7 +123,7 @@
                     </li>
 
 
-                    <li class="has-sub">
+                    <!--<li class="has-sub">
                         <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
                            data-target="#ui-elements"
                            aria-expanded="false" aria-controls="ui-elements">
@@ -550,7 +552,7 @@
 
                             </div>
                         </ul>
-                    </li>
+                    </li>-->
 
 
                 </ul>
@@ -602,7 +604,7 @@
                             <i class="mdi mdi-magnify"></i>
                         </button>
                         <input type="text" name="query" id="search-input" class="form-control"
-                               placeholder="'button', 'chart' etc."
+                               placeholder="请输入房间编号."
                                autofocus autocomplete="off"/>
                     </div>
                     <div id="search-results-container">
@@ -613,14 +615,14 @@
                 <div class="navbar-right ">
                     <ul class="nav navbar-nav">
                         <!-- Github Link Button -->
-                        <li class="github-link mr-3">
+                        <!--<li class="github-link mr-3">
                             <a class="btn btn-outline-secondary btn-sm"
                                href="https://github.com/tafcoder/sleek-dashboard" target="_blank">
                                 <span class="d-none d-md-inline-block mr-2">Source Code</span>
                                 <i class="mdi mdi-github-circle"></i>
                             </a>
 
-                        </li>
+                        </li>-->
                         <li class="dropdown notifications-menu">
                             <button class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="mdi mdi-bell-outline"></i>
@@ -724,7 +726,7 @@
                                 <div class="col-xl-8">
                                     <div class="border-right">
                                         <div class="card-header justify-content-between py-5">
-                                            <h2>User Activity</h2>
+                                            <h2>入住人数统计</h2>
                                             <div class="date-range-report ">
                                                 <span></span>
                                             </div>
@@ -734,7 +736,7 @@
                                             <li class="nav-item">
                                                 <a class="nav-link active pb-md-0" data-toggle="tab" href="#user"
                                                    role="tab" aria-controls="" aria-selected="true">
-                                                    <span class="type-name">User</span>
+                                                    <span class="type-name">用户</span>
                                                     <h4 class="d-inline-block mr-2 mb-3">5248</h4>
                                                     <span class="text-success ">5%
                                           <i class="mdi mdi-arrow-up-bold"></i>
@@ -744,7 +746,7 @@
                                             <li class="nav-item">
                                                 <a class="nav-link pb-md-0" data-toggle="tab" href="#session" role="tab"
                                                    aria-controls="" aria-selected="false">
-                                                    <span class="type-name">Sessions</span>
+                                                    <span class="type-name">季度</span>
                                                     <h4 class="d-inline-block mr-2 mb-3">638</h4>
                                                     <span class="text-success ">20%
                                           <i class="mdi mdi-arrow-up-bold"></i>
@@ -754,20 +756,10 @@
                                             <li class="nav-item">
                                                 <a class="nav-link pb-md-0" data-toggle="tab" href="#bounce" role="tab"
                                                    aria-controls="" aria-selected="false">
-                                                    <span class="type-name">Bounce Rate</span>
+                                                    <span class="type-name">纯利润</span>
                                                     <h4 class="d-inline-block mr-2 mb-3">36.9%</h4>
                                                     <span class="text-danger ">7%
                                           <i class="mdi mdi-arrow-down-bold"></i>
-                                        </span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link pb-md-0" data-toggle="tab" href="#session-duration"
-                                                   role="tab" aria-controls="" aria-selected="false">
-                                                    <span class="type-name">Session Duration</span>
-                                                    <h4 class="d-inline-block mr-2 mb-3">4m 49s</h4>
-                                                    <span class="text-success ">15%
-                                          <i class="mdi mdi-arrow-up-bold"></i>
                                         </span>
                                                 </a>
                                             </li>
@@ -786,7 +778,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-4">
-                                    <div data-scroll-height="642">
+                                    <!--<div data-scroll-height="642">
                                         <div class="card-header pt-5 flex-column align-items-start">
                                             <h4 class="text-dark mb-4">Current Users</h4>
                                             <div class="mb-3">
@@ -801,7 +793,7 @@
                                         <div class="card-footer d-flex flex-wrap bg-white border-top">
                                             <a href="#" class="text-uppercase py-3">Audience Overview</a>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -809,10 +801,10 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-xl-6 col-12">
 
-                        <!-- User Acquisition Statistics -->
+                        &lt;!&ndash; User Acquisition Statistics &ndash;&gt;
                         <div class="card card-default" id="user-acquisition">
                             <div class="card-header justify-content-between pb-5">
                                 <h2>User Acquisition</h2>
@@ -850,7 +842,7 @@
                     </div>
                     <div class="col-xl-6 col-12">
 
-                        <!-- World Chart -->
+                        &lt;!&ndash; World Chart &ndash;&gt;
 
                         <div class="card card-default" id="analytics-country">
                             <div class="card-header justify-content-between">
@@ -887,7 +879,7 @@
                 <div class="row">
                     <div class=" col-xl-4 ">
 
-                        <!-- Sessions By device Chart -->
+                        &lt;!&ndash; Sessions By device Chart &ndash;&gt;
                         <div class="card card-default" id="analytics-device" data-scroll-height="580">
                             <div class="card-header justify-content-between">
                                 <h2>Sessions by Device</h2>
@@ -929,7 +921,7 @@
                     </div>
                     <div class=" col-xl-4 ">
 
-                        <!-- Page Views  -->
+                        &lt;!&ndash; Page Views  &ndash;&gt;
                         <div class="card card-default table-borderless" id="page-views" data-scroll-height="580">
                             <div class="card-header justify-content-between">
                                 <h2>Page Views</h2>
@@ -1004,7 +996,7 @@
 
                     </div>
                     <div class=" col-xl-4 ">
-                        <!-- Notification Table -->
+                        &lt;!&ndash; Notification Table &ndash;&gt;
                         <div class="card card-default" data-scroll-height="580">
                             <div class="card-header justify-content-between">
                                 <h2>Latest Notifications</h2>
@@ -1109,7 +1101,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div>-->
             </div>
 
 
@@ -1158,6 +1150,8 @@
 <script src="assets/js/date-range.js"></script>
 <script src="assets/js/map.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/custom/analytics.js"></script>
+
 
 
 </body>

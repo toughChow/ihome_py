@@ -98,6 +98,49 @@ $(function () {
             }
         })
     })
+    // 房间報修
+    $('#room-broken-btn').on('click',function (event) {
+        var room_id = $('#room-broken-room-id').val()
+        var repair_msg = $('#room-repair-message').val()
+        $.ajax({
+            type: 'GET',
+            url: '/user/room/broken',
+            contentType: 'application/json;charset=utf-8',
+            data: {room_id:room_id, repair_msg:repair_msg},
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                alert(data)
+                window.location.href='/home'
+            },
+            error: function (e) {
+
+            }
+        })
+    })
+    // 退房
+    $('#guest-out-btn').on('click',function (event) {
+        var room_id = $('#guest-out-room-id').val()
+        alert(room_id)
+        $.ajax({
+            type: 'GET',
+            url: '/user/guest/out',
+            contentType: 'application/json;charset=utf-8',
+            data: {room_id:room_id},
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                window.location.href='/home'
+            },
+            error: function (e) {
+
+            }
+        })
+    })
+
+
     // 位置选择按钮样式
     $('.pos-btn').on('click', function (event) {
         $('.pos-btn').forEach(function (t) {
@@ -106,7 +149,6 @@ $(function () {
         })
         $(this).addClass('btn-dark')
     })
-
     // 入住获取隐藏房间id
     $('#guest-in-model').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -129,5 +171,17 @@ $(function () {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var recipient = button.data('whatever') // Extract info from data-* attributes
         $('#room-use-room-id').val(recipient)
+    })
+    // 保修房间隐藏房间id
+    $('#room-repair-model').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        $('#room-broken-room-id').val(recipient)
+    })
+    // 退房隐藏房间id
+    $('#guest-out-model').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        $('#guest-out-room-id').val(recipient)
     })
 })

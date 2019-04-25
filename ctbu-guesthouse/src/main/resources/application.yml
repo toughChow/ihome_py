@@ -15,6 +15,31 @@ spring:
   profiles: dev
   datasource:
     driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ihomepy?zeroDateTimeBehavior=convertToNull&autoReconnect=true&tinyInt1isBit=false&useSSL=false
+    username: root
+    password: iyuyun
+    testWhileIdle: true
+    testOnBorrow: true
+    validationQuery: SELECT 1
+
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+      hibernate.naming.physical-strategy: org.hibernate.boot.data.naming.PhysicalNamingStrategyStandardImpl
+      hibernate.cache.use_second_level_cache: false
+      hibernate.search.default.directory_provider: filesystem
+      hibernate.search.default.indexBase: ./indexes
+    open-in-view: true
+
+---
+spring:
+  profiles: test
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://lxwc9k5r.2375.dnstoo.com:5510/ihomepy?zeroDateTimeBehavior=convertToNull&autoReconnect=true&tinyInt1isBit=false&useSSL=false
     username: ihomepy_f
     password: ihome2019

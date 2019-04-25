@@ -1272,7 +1272,7 @@ $(document).ready(function() {
   }
 
   /*======== 16. ANALYTICS - ACTIVITY CHART ========*/
-  var activity = document.getElementById("activity");
+  /*var activity = document.getElementById("activity");
   if (activity !== null) {
     var activityData = [
       {
@@ -1406,7 +1406,7 @@ $(document).ready(function() {
         myLine.update();
       });
     });
-  }
+  }*/
 
   /*======== 17. HORIZONTAL BAR CHART1 ========*/
   var hbar1 = document.getElementById("hbar1");

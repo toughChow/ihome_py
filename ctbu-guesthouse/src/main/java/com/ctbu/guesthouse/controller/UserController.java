@@ -1,7 +1,10 @@
 package com.ctbu.guesthouse.controller;
 
 import com.ctbu.guesthouse.dao.RoomDao;
+import com.ctbu.guesthouse.dao.SysLogDao;
 import com.ctbu.guesthouse.domain.Room;
+import com.ctbu.guesthouse.domain.SysLog;
+import com.ctbu.guesthouse.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,11 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
+    UserService userService;
+    @Autowired
     RoomDao roomDao;
+    @Autowired
+    SysLogDao sysLogDao;
     
 
     @PostMapping(value = "/guest")
@@ -88,6 +95,39 @@ public class UserController {
         return "办理入住成功";
     }
 
+    /**
+     * 退房
+     * @param rooId
+     * @return
+     */
+    @RequestMapping("/guest/out")
+    @ResponseBody
+    public String guestOut(@RequestParam(name = "room_id") Long rooId) {
+        Room room = roomDao.findById(rooId).get();
+        Float givedPrice = room.getGivedPrice();
+        Float requiredPrice = room.getRequiredPrice();
+        float money = requiredPrice - givedPrice;
+
+        SysLog sysLog = new SysLog(room.getId(), room.getPrice(), room.getRequiredPrice(), room.getGuestName(), room.getGuestId(),
+                room.getStartTime(), room.getEndTime(), room.getGuestTime());
+        sysLogDao.save(sysLog);
+
+        room.initRoom();
+        roomDao.saveAndFlush(room);
+
+        if(money > 0)
+            return "退房成功,客人需补交" + money + "元";
+        else if(money < 0)
+            return "退房成功,需退还押金" + money + "元";
+        else
+            return "退房成功,无退补金额";
+    }
+
+    /**
+     * 房屋重新使用
+     * @param rooId
+     * @return
+     */
     @RequestMapping("/room/reuse")
     @ResponseBody
     public String reuseRoom(@RequestParam(name = "room_id") Long rooId) {
@@ -95,6 +135,32 @@ public class UserController {
         room.setStatus(0);
         roomDao.saveAndFlush(room);
         return "成功";
+    }
+
+    /**
+     * 房屋保修
+     * @param rooId
+     * @return
+     */
+    @RequestMapping("/room/broken")
+    @ResponseBody
+    public String brokenRoom(@RequestParam(name = "room_id") Long rooId,@RequestParam(name = "repair_msg") String repairMsg) {
+        Room room = roomDao.findById(rooId).get();
+        room.initRoom();
+        room.setStatus(2);
+        room.setRemark(repairMsg);
+        roomDao.saveAndFlush(room);
+        return "成功";
+    }
+
+    /**
+     * 分析用户
+     * @return
+     */
+    @RequestMapping("/analytics")
+    @ResponseBody
+    public Object analytics() {
+        return userService.analyticsUser();
     }
 
 

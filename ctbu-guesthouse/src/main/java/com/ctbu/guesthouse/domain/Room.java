@@ -54,6 +54,17 @@ public class Room {
     @JoinColumn(name="user_id", insertable = false,updatable = false)
     private User user; // 管理员
 
+    public void initRoom() {
+        this.requiredPrice = null;
+        this.givedPrice = null;
+        this.guestName = null;
+        this.guestId = null;this.startTime = null;
+        this.endTime = null;
+        this.guestTime = null;
+        this.status = 0;
+        this.remark = null;
+    }
+
     public Long getId() {
         return id;
     }

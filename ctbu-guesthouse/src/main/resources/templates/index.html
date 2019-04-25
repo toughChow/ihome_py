@@ -124,7 +124,7 @@
                     </li>
 
 
-                    <li class="has-sub">
+                    <!--<li class="has-sub">
                         <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
                            data-target="#ui-elements"
                            aria-expanded="false" aria-controls="ui-elements">
@@ -553,7 +553,7 @@
 
                             </div>
                         </ul>
-                    </li>
+                    </li>-->
 
 
                 </ul>
@@ -605,7 +605,7 @@
                             <i class="mdi mdi-magnify"></i>
                         </button>
                         <input type="text" name="query" id="search-input" class="form-control"
-                               placeholder="'button', 'chart' etc."
+                               placeholder="请输入房间编号."
                                autofocus autocomplete="off"/>
                     </div>
                     <div id="search-results-container">
@@ -616,14 +616,14 @@
                 <div class="navbar-right ">
                     <ul class="nav navbar-nav">
                         <!-- Github Link Button -->
-                        <li class="github-link mr-3">
+                        <!--<li class="github-link mr-3">
                             <a class="btn btn-outline-secondary btn-sm"
                                href="https://github.com/tafcoder/sleek-dashboard" target="_blank">
                                 <span class="d-none d-md-inline-block mr-2">Source Code</span>
                                 <i class="mdi mdi-github-circle"></i>
                             </a>
 
-                        </li>
+                        </li>-->
                         <li class="dropdown notifications-menu">
                             <button class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="mdi mdi-bell-outline"></i>
@@ -964,28 +964,27 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form class="needs-validation" id="room-repair-form" novalidate>
-                        <div class="modal-body">
-                            <div class="form-row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="guest-in-money">说明</label>
-                                    <input type="text" class="form-control" id="room-repair-message"
-                                           placeholder="保修说明" value="" required>
-                                    <div class="invalid-feedback">
-                                        请填写报修说明!
-                                    </div>
-                                    <div class="valid-feedback">
-                                        checked!
-                                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="guest-in-money">说明</label>
+                                <input type="text" class="form-control" id="room-repair-message"
+                                       placeholder="保修说明" value="" required>
+                                <input type="hidden" id="room-broken-room-id">
+                                <div class="invalid-feedback">
+                                    请填写报修说明!
+                                </div>
+                                <div class="valid-feedback">
+                                    checked!
                                 </div>
                             </div>
-                            <input type="hidden" id="room-repair-id-hidden">
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                            <button type="submit" class="btn btn-primary">提交</button>
-                        </div>
-                    </form>
+                        <input type="hidden" id="room-repair-id-hidden">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="submit" id="room-broken-btn" class="btn btn-primary ">提交</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1000,6 +999,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                        <input type="hidden" id="guest-out-room-id">
                         <div class="modal-body">
                             是否退房?
                         </div>
