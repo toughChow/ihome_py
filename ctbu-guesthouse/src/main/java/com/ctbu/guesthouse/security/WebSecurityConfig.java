@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/assets/**", "/fonts/**", "/login").permitAll() // 都可以访问
+        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/assets/**", "/fonts/**", "/login", "/sign-up","/reg").permitAll() // 都可以访问
                 .antMatchers("/h2-console/**").permitAll() // 都可以访问
 //                .antMatchers("/admins/**").hasRole("ADMIN") // 需要相应的角色才能访问
                 .anyRequest().authenticated() //任何请求,登录后可以访问

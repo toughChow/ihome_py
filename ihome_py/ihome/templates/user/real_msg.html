@@ -106,11 +106,11 @@
                 <!--内容区-->
                 <div class="mui-card-content" style="margin-top: 60px">
                     <form class="mui-input-group register-form">
-                        {% if user %}
+                        {% if user.real_name %}
                             <div class="mui-input-row">
                                 <label>姓名</label>
                                 <input id='read_name' type="text" class="mui-input mui-input-clear "
-                                       value="{{ user.real_name }}" placeholder="请输入真实">
+                                       value="{{ user.real_name }}" placeholder="请输入真实姓名">
                             </div>
                             <div class="mui-input-row">
                                 <label>身份证</label>
@@ -121,7 +121,7 @@
                             <div class="mui-input-row">
                                 <label>姓名</label>
                                 <input id='real_name' type="text" class="mui-input mui-input-clear "
-                                       placeholder="请输入真实">
+                                       placeholder="请输入真实姓名">
                             </div>
                             <div class="mui-input-row">
                                 <label>身份证</label>

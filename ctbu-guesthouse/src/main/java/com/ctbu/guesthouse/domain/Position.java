@@ -13,7 +13,7 @@ public class Position {
     @Column(length = 32 )
     private String positionName;
 
-    @ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
     @JoinColumn(name="user_id", insertable = false,updatable = false)
     private User user;
 

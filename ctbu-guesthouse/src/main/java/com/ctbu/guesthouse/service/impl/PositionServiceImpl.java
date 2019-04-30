@@ -18,8 +18,8 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public List<Position> findAll() {
-        User userDetails = (User) SecurityContextHolder.getContext() .getAuthentication() .getPrincipal();
-        List<Position> positions = positionDao.findAllByUser(userDetails);
+//        User userDetails = (User) SecurityContextHolder.getContext() .getAuthentication() .getPrincipal();
+        List<Position> positions = positionDao.findAll();
         return positions;
     }
 }

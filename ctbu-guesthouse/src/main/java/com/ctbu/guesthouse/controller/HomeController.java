@@ -49,4 +49,9 @@ public class HomeController {
         return "analytics";
     }
 
+    @RequestMapping("/sign-up")
+    public String signUp() {
+        return "sign-up";
+    }
+
 }

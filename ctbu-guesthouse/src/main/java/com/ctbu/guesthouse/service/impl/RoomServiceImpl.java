@@ -26,9 +26,9 @@ public class RoomServiceImpl implements RoomService {
         List<Room> rooms = null;
         if(posId!=null) {
             Position postion = positionDao.findById(Long.valueOf(posId)).get();
-            rooms = roomDao.findAllByUserAndPosition(userDetails,postion);
+            rooms = roomDao.findAllByPosition(postion);
         } else {
-            rooms = roomDao.findAllByUser(userDetails);
+            rooms = roomDao.findAll();
         }
         return rooms;
     }
