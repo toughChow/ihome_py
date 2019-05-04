@@ -43,6 +43,9 @@ public class Room {
     @Column
     private Integer guestTime; // 退住日期
 
+    @Column(length = 55)
+    private String mdcValue;
+
     @Column(length = 1)
     private Integer status; // 状态 0 未入住 1 已入住 2 警告
 
@@ -201,5 +204,21 @@ public class Room {
     public Room setGuestTime(Integer guestTime) {
         this.guestTime = guestTime;
         return this;
+    }
+
+    public String getGuestPhone() {
+        return guestPhone;
+    }
+
+    public void setGuestPhone(String guestPhone) {
+        this.guestPhone = guestPhone;
+    }
+
+    public String getMdcValue() {
+        return mdcValue;
+    }
+
+    public void setMdcValue(String mdcValue) {
+        this.mdcValue = mdcValue;
     }
 }

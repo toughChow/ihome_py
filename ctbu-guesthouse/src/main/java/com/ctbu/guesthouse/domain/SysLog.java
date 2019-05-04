@@ -37,6 +37,9 @@ public class SysLog {
     @Column
     private Integer guestTime; // 住房天数
 
+    @Column(length = 55)
+    private String mdcValue;
+
     @Column
     @CreationTimestamp
     private Date ctTime;
@@ -142,5 +145,13 @@ public class SysLog {
 
     public void setCtTime(Date ctTime) {
         this.ctTime = ctTime;
+    }
+
+    public String getMdcValue() {
+        return mdcValue;
+    }
+
+    public void setMdcValue(String mdcValue) {
+        this.mdcValue = mdcValue;
     }
 }

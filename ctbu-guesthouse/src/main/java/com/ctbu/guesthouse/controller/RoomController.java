@@ -50,4 +50,9 @@ public class RoomController {
     public String log(ModelMap modelMap) {
         return "/room/log";
     }
+
+    @GetMapping("/consume")
+    public String consume(ModelMap modelMap) {
+        return "/room/consume";
+    }
 }

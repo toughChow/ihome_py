@@ -114,10 +114,14 @@
                                 <p class="card-text" th:text="'单价：'+${room.price}"></p>
                                 <p class="card-text" th:text="'状态：'+${room.guestName}+' 已预约'"></p>
                                 <div class="card-body">
-                                    <button type="button" class="mb-1 btn btn-danger btn-sm"
+                                    <button type="button" class="mb-1 btn btn-primary btn-sm"
                                             data-toggle="modal"
                                             data-target="#room-confirm-book-model"
                                             th:data-whatever="${room.id}">确认入住</button>
+                                    <button type="button" class="mb-1 btn btn-danger btn-sm"
+                                            data-toggle="modal"
+                                            data-target="#room-confirm-book-model"
+                                            th:data-whatever="${room.id}">取消预约</button>
                                 </div>
                             </div>
                         </div>

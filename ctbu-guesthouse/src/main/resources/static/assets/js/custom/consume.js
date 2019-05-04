@@ -25,15 +25,18 @@ $(function () {
                 layer.close(loadIndex)
                 $('#table-detail-data').html('')
                 var html = ''
-                var total = 0
                 data.content.forEach((item)=>{
-                    total += item.guestPrice
                     html += '<tr></tr><td>'+ item.id+'</td>' +
+                    '<td>'+ item.roomCode +'</td>' +
+                    '<td>'+ item.price +'</td>' +
+                    '<td>'+ item.guestName +'</td>' +
+                    '<td>'+ item.guestId +'</td>' +
+                    '<td>'+ item.guestTime +'</td>' +
                     '<td>'+ item.guestPrice +'</td>' +
-                    '<td>'+ new Date(item.ctTime) +'</td></tr>'
+                    '<td>'+ item.startTime+'</td>' +
+                    '<td>'+ item.endTime+'</td></tr>'
                 })
                 $('#table-detail-data').html(html)
-                $('.total-salary').html(total)
                 console.log(data)
                 layui.use('laypage', function(){
                     var laypage = layui.laypage;

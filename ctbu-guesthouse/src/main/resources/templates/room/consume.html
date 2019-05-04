@@ -24,23 +24,28 @@
             <div class="content">
                 <div class="invoice-wrapper rounded border bg-white py-5 px-3 px-md-4 px-lg-5">
                     <div class="d-flex justify-content-between">
-                        <h2 class="text-dark font-weight-medium">收银管理</h2>
-                        <div class="media widget-media p-2 bg-white border">
-                            <div class="icon rounded-circle mr-4 bg-danger">
-                                <i class="mdi mdi-cart-outline text-white "></i>
-                            </div>
-                            <div class="media-body align-self-center">
-                                <h4 class="text-primary mb-2 total-salary"></h4>
-                                <p>总收入</p>
-                            </div>
+                        <h2 class="text-dark font-weight-medium">入住日志</h2>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-secondary">
+                                <i class="mdi mdi-content-save"></i> Save
+                            </button>
+                            <button class="btn btn-sm btn-secondary">
+                                <i class="mdi mdi-printer"></i> Print
+                            </button>
                         </div>
                     </div>
                     <table class="table mt-3 table-striped table-responsive table-responsive-large" style="width:100%">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>入账金额</th>
-                            <th>入账时间</th>
+                            <th>房间号</th>
+                            <th>房间价格</th>
+                            <th>客人姓名</th>
+                            <th>客人ID</th>
+                            <th>入住天数</th>
+                            <th>消费金额</th>
+                            <th>入住时间</th>
+                            <th>离店时间</th>
                         </tr>
                         </thead>
                         <tbody id="table-detail-data">
@@ -66,7 +71,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="room-update-model-label">房间信息修改</h5>
+                        <h5 class="modal-title" id="room-update-model-label">入住日志</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -125,7 +130,7 @@
 </div>
 
 <!--custom js-->
-<script th:src="@{/assets/js/custom/money.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/custom/consume.js}" type="text/javascript"></script>
 
 <script>
 

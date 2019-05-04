@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -64,6 +65,7 @@ public class UserController {
         room.setGivedPrice(guestMoney);
         room.setRequiredPrice(room.getPrice() * guestTime);
         room.setStatus(1);
+        room.setMdcValue(UUID.randomUUID().toString());
 
         roomDao.save(room);
 
@@ -117,6 +119,7 @@ public class UserController {
 
         SysLog sysLog = new SysLog(room.getId(), room.getPrice(), room.getRequiredPrice(), room.getGuestName(), room.getGuestId(),
                 room.getStartTime(), room.getEndTime(), room.getGuestTime());
+        sysLog.setMdcValue(room.getMdcValue());
         sysLogDao.save(sysLog);
 
         room.initRoom();
@@ -230,6 +233,7 @@ public class UserController {
         room.setGuestTime(guestTime);
         room.setRequiredPrice(room.getPrice() * guestTime);
         room.setStatus(3); // 设为已预约;
+        room.setMdcValue(UUID.randomUUID().toString());
 
         roomDao.save(room);
 
