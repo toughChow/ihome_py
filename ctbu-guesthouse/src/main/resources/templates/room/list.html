@@ -24,7 +24,7 @@
             <div class="content">
                 <div class="invoice-wrapper rounded border bg-white py-5 px-3 px-md-4 px-lg-5">
                     <div class="d-flex justify-content-between">
-                        <h2 class="text-dark font-weight-medium">Invoice #2365546</h2>
+                        <h2 class="text-dark font-weight-medium">房间信息</h2>
                         <div class="btn-group">
                             <button class="btn btn-sm btn-secondary">
                                 <i class="mdi mdi-content-save"></i> Save
@@ -34,97 +34,53 @@
                             </button>
                         </div>
                     </div>
-                    <div class="row pt-5">
-                        <div class="col-xl-3 col-lg-4">
-                            <p class="text-dark mb-2">From</p>
-                            <address>
-                                Company Name
-                                <br> 47 Holmes Green, Sophiebury, WP9M 3ZZ
-                                <br> Email: example@gmail.com
-                                <br> Phone: +91 5264 251 325
-                            </address>
-                        </div>
-                        <div class="col-xl-3 col-lg-4">
-                            <p class="text-dark mb-2">To</p>
-                            <address>
-                                Company Name
-                                <br> 58 Jamie Ways, North Faye, Q5 5ZP
-                                <br> Email: example@gmail.com
-                                <br> Phone: +91 5264 521 943
-                            </address>
-                        </div>
-                        <div class="col-xl-3 col-lg-4">
-                            <p class="text-dark mb-2">Details</p>
-                            <address>
-                                Invoice ID:
-                                <span class="text-dark">#2365546</span>
-                                <br> March 25, 2018
-                                <br> VAT: PL6541215450
-                            </address>
-                        </div>
-                    </div>
                     <table class="table mt-3 table-striped table-responsive table-responsive-large" style="width:100%">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Item</th>
-                            <th>Description</th>
-                            <th>Quantity</th>
-                            <th>Unit Cost</th>
-                            <th>Total</th>
+                            <th>编号</th>
+                            <th>名字</th>
+                            <th>价格</th>
+                            <th>位置</th>
+                            <th>状态</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Platinum Support</td>
-                            <td>1 year subcription 24/7</td>
-                            <td>1</td>
-                            <td>$3.999,00</td>
-                            <td>$3.999,00</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Custom Services</td>
-                            <td>Instalation and Customization (cost per hour)</td>
-                            <td>10</td>
-                            <td>$250,00</td>
-                            <td>$250,000</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Origin License</td>
-                            <td>Extended License</td>
-                            <td>1</td>
-                            <td>$799,00</td>
-                            <td>$799,00</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Hosting</td>
-                            <td>1 year subcription</td>
-                            <td>1</td>
-                            <td>$599,00</td>
-                            <td>$599,00</td>
+                        <tr th:each="room:${rooms}">
+                            <td><label th:text="${room.id}"></td>
+                            <td><label th:text="${room.roomCode}"></td>
+                            <td><label th:text="${room.roomName}"></td>
+                            <td><label th:text="${room.price}"></td>
+                            <td><label th:text="${room.position.positionName}"></td>
+                            <td th:if="${room.status == 0}"><label th:text="未入住"></td>
+                            <td th:if="${room.status == 1}"><label th:text="已入住"></td>
+                            <td th:if="${room.status == 2}"><label th:text="保修中"></td>
+                            <td th:if="${room.status == 3}"><label th:text="已预约"></td>
+                            <td th:if="${room.status == 0 || room.status == 2}">
+                                <button type="button" class="mb-1 btn btn-danger btn-sm"
+                                        data-toggle="modal"
+                                        data-target="#room-update-model"
+                                        th:data-whatevernum="${room.roomCode}"
+                                        th:data-whatevername="${room.roomName}"
+                                        th:data-whateverprice="${room.price}"
+                                        th:data-whatever="${room.id}">修改
+                                </button>
+                            </td>
+                            <td th:if="${room.status == 1 || room.status == 3}">
+                                <button type="button" class="mb-1 btn btn-primary btn-sm"
+                                        data-toggle="modal"
+                                        data-target="#room-show-model"
+                                        th:data-whatevernum="${room.roomCode}"
+                                        th:data-whatevername="${room.roomName}"
+                                        th:data-whateverguest="${room.guestName}"
+                                        th:data-whateverremark="${room.remark}"
+                                        th:data-whatever="${room.id}">查看
+                                </button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
-                    <div class="row justify-content-end">
-                        <div class="col-lg-5 col-xl-4 col-xl-3 ml-sm-auto">
-                            <ul class="list-unstyled mt-4">
-                                <li class="mid pb-3 text-dark"> Subtotal
-                                    <span class="d-inline-block float-right text-default">$7.897,00</span>
-                                </li>
-                                <li class="mid pb-3 text-dark">Vat(10%)
-                                    <span class="d-inline-block float-right text-default">$789,70</span>
-                                </li>
-                                <li class="pb-3 text-dark">Total
-                                    <span class="d-inline-block float-right">$8.686,70</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="btn btn-block mt-2 btn-lg btn-primary btn-pill"> Procced to Payment</a>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -134,8 +90,122 @@
         <!-- footer -->
         <div th:include="common/footer :: footer"></div>
 
+
+        <!-- Modal -->
+        <!-- 修改房间信息 -->
+        <div class="modal fade" id="room-update-model" tabindex="-1" role="dialog"
+             aria-labelledby="room-update-model-label"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="room-update-model-label">房间信息修改</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="needs-validation" id="room-update-model-form" novalidate>
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="room-update-roomid">房间号</label>
+                                    <input type="text" class="form-control" id="room-update-roomid"
+                                           placeholder="房间号" value="" required>
+                                    <div class="invalid-feedback">
+                                        请输入房间号!
+                                    </div>
+                                    <div class="valid-feedback">
+                                        checked!
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="room-update-roomname">房间名称</label>
+                                    <input type="text" class="form-control" id="room-update-roomname"
+                                           placeholder="房间名称" value="" required>
+                                    <div class="invalid-feedback">
+                                        请输入房间名称!
+                                    </div>
+                                    <div class="valid-feedback">
+                                        checked!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="room-update-price">价格</label>
+                                    <input type="text" class="form-control" id="room-update-price"
+                                           placeholder="价格" value="" required>
+                                    <div class="invalid-feedback">
+                                        请输入价格!
+                                    </div>
+                                    <div class="valid-feedback">
+                                        checked!
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="room-update-room-id-hidden">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 修改房间信息 -->
+        <div class="modal fade" id="room-show-model" tabindex="-1" role="dialog"
+             aria-labelledby="room-update-model-label"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="room-show-model-label">查看房间信息</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!--<form class="needs-validation" id="room-show-model-form" novalidate>-->
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="room-update-roomid">房间号</label>
+                                    <input type="text" class="form-control" id="room-show-roomid"
+                                           placeholder="房间号" value="" required readonly>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="room-update-roomname">房间名称</label>
+                                    <input type="text" class="form-control" id="room-show-roomname"
+                                           placeholder="房间名称" value="" required readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="room-update-price">客人信息</label>
+                                    <input type="text" class="form-control" id="room-show-guest"
+                                           placeholder="客人" value="" required readonly>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="room-update-price">状态</label>
+                                    <input type="text" class="form-control" id="room-show-remark"
+                                           placeholder="remark" value="" required readonly>
+                                </div>
+                            </div>
+                            <input type="hidden" id="room-show-room-id-hidden">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                        </div>
+                    <!--</form>-->
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+
+<!--custom js-->
+<script th:src="@{/assets/js/custom/room-list.js}" type="text/javascript"></script>
 
 </body>
 </html>

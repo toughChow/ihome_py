@@ -5,10 +5,10 @@ import com.ctbu.guesthouse.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/room")
@@ -17,10 +17,37 @@ public class RoomController {
     @Autowired
     RoomService roomService;
 
-    @GetMapping("/book")
+    @GetMapping("/list")
     public String book(ModelMap modelMap) {
         List<Room> rooms = roomService.findAll(null);
         modelMap.addAttribute("rooms",rooms);
         return "/room/list";
+    }
+
+    /**
+     * 更新房间信息
+     * @param map
+     * @return
+     */
+    @PostMapping("/update")
+    @ResponseBody
+    public String updateRoom(@RequestBody Map map) {
+        return roomService.updateRoom(map);
+    }
+
+    @GetMapping("/money")
+    public String money(ModelMap modelMap) {
+        return "/room/money";
+    }
+
+    @GetMapping("/money/detail")
+    @ResponseBody
+    public Object moneyDetail(@RequestParam(name = "pn", defaultValue = "0") Integer pageNo) {
+        return roomService.pageLogDetail(pageNo);
+    }
+
+    @GetMapping("/log")
+    public String log(ModelMap modelMap) {
+        return "/room/log";
     }
 }

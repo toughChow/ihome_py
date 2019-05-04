@@ -46,6 +46,11 @@
                                 <p class="card-text" th:text="'单价：'+${room.price}"></p>
                                 <p class="card-text" th:text="状态：暂无入住信息"></p>
                                 <div class="card-body">
+                                    <button type="button" class="mb-1 btn btn-warning btn-sm"
+                                            data-toggle="modal"
+                                            data-target="#guest-book-model"
+                                            th:data-whatever="${room.id}">预约
+                                    </button>
                                     <button type="button" class="mb-1 btn btn-primary btn-sm"
                                             data-toggle="modal"
                                             data-target="#guest-in-model"
@@ -96,6 +101,23 @@
                                             data-toggle="modal"
                                             data-target="#room-use-model"
                                             th:data-whatever="${room.id}">使用</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card text-white bg-dark mb-3" th:if="${room.status == 3}">
+                            <div class="card-header bg-warning"
+                                 th:text="${room.remark} == null ? '房间号：'
+                                 +${room.roomCode} : '房间号：'+ ${room.roomCode} +' '+ ${room.remark}"></div>
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${room.roomName}"></h5>
+                                <p class="card-text" th:text="${room.position.positionName}"></p>
+                                <p class="card-text" th:text="'单价：'+${room.price}"></p>
+                                <p class="card-text" th:text="'状态：'+${room.guestName}+' 已预约'"></p>
+                                <div class="card-body">
+                                    <button type="button" class="mb-1 btn btn-danger btn-sm"
+                                            data-toggle="modal"
+                                            data-target="#room-confirm-book-model"
+                                            th:data-whatever="${room.id}">确认入住</button>
                                 </div>
                             </div>
                         </div>
@@ -179,6 +201,75 @@
                 </div>
             </div>
         </div>
+        <!-- 预定 -->
+        <div class="modal fade" id="guest-book-model" tabindex="-1" role="dialog" aria-labelledby="guest-in-model-label"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="guest-book-model-label">房间预约</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="needs-validation" id="guest-book-form" novalidate>
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="guest-in-name">姓名</label>
+                                    <input type="text" class="form-control" id="guest-book-name"
+                                           placeholder="姓名" value="" required>
+                                    <div class="invalid-feedback">
+                                        请输入姓名!
+                                    </div>
+                                    <div class="valid-feedback">
+                                        checked!
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="guest-in-id">身份证</label>
+                                    <input type="text" class="form-control" id="guest-book-id"
+                                           placeholder="身份证" value="" required>
+                                    <div class="invalid-feedback">
+                                        请输入身份证!
+                                    </div>
+                                    <div class="valid-feedback">
+                                        checked!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3  input-append date form_datetime">
+                                    <label for="daterange-btn">入住时间</label>
+                                    <input type="text" class="form-control" id="daterange-book-btn"
+                                           placeholder="入住时间" value="" required>
+                                    <div class="invalid-feedback">
+                                        请输入入住时间
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="guest-in-money">缴费</label>
+                                <input type="text" class="form-control" id="guest-book-money"
+                                       placeholder="押金(预约当日6点前未取消则不退还押金)" value="" required>
+                                <div class="invalid-feedback">
+                                    请填写押金!
+                                </div>
+                                <div class="valid-feedback">
+                                    checked!
+                                </div>
+                            </div>
+                            <input type="hidden" id="guest-book-time-hidden">
+                            <input type="hidden" id="guest-book-room-id-hidden">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- 续住 -->
         <div class="modal fade" id="guest-in-continue-model" tabindex="-1" role="dialog" aria-labelledby="guest-in-continue-label"
              aria-hidden="true">
@@ -245,7 +336,7 @@
                 </div>
             </div>
         </div>
-        <!-- 保修 -->
+        <!-- 报修 -->
         <div class="modal fade" id="room-repair-model" tabindex="-1" role="dialog" aria-labelledby="room-repair-label"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -276,6 +367,40 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                         <button type="submit" id="room-broken-btn" class="btn btn-primary ">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 预约确认入住 -->
+        <div class="modal fade" id="room-confirm-book-model" tabindex="-1" role="dialog" aria-labelledby="room-repair-label"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="room-confirm-book-label">确认预约入住登记</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="guest-in-money">补交金额</label>
+                                <input type="text" class="form-control" id="room-confirm-book-money"
+                                       placeholder="补交金额" value="" required>
+                                <input type="hidden" id="room-confirm-book-room-id">
+                                <div class="invalid-feedback">
+                                    请输入补交房费!
+                                </div>
+                                <div class="valid-feedback">
+                                    checked!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="submit" id="room-confirm-book-btn" class="btn btn-primary ">提交</button>
                     </div>
                 </div>
             </div>
@@ -383,6 +508,33 @@
             function(start, end) {
                 var tmp = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD');
                 $('#guest-in-continue-time-hidden').val(tmp);
+            }
+        );
+        // 预约日期
+        $('#daterange-book-btn').daterangepicker({
+                ranges: {
+                    '今天': [moment(), moment()],
+                    '本周': [moment().startOf('week'), moment().endOf('week')],
+                    '本月': [moment().startOf('month'), moment().endOf('month')],
+//                    '今年': [moment().startOf('year'), moment().endOf('year')]
+                },
+                locale: {
+                    format: "YYYY/MM/DD",
+                    separator: " - ",
+                    applyLabel: "确认",
+                    cancelLabel: "清空",
+                    fromLabel: "开始时间",
+                    toLabel: "结束时间",
+                    customRangeLabel: "自定义",
+                    daysOfWeek: ["日","一","二","三","四","五","六"],
+                    monthNames: ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+                },
+//                startDate: moment(),
+//                endDate: moment().endOf('month')
+            },
+            function(start, end) {
+                var tmp = start.format('YYYYMMDD') + '-' + end.format('YYYYMMDD');
+                $('#guest-book-time-hidden').val(tmp);
             }
         );
         //Date picker

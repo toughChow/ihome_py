@@ -32,6 +32,9 @@ public class Room {
     private String guestId; // 客人身份证
 
     @Column(length = 11)
+    private String guestPhone; // 客人电话
+
+    @Column(length = 11)
     private String startTime; // 入住日期
 
     @Column(length = 11)

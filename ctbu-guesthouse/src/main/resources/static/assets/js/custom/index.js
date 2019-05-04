@@ -12,7 +12,7 @@ $(function () {
         var guest_in_room_id = $('#guest-in-continue-room-id-hidden').val()
         console.log(guest_in_room_id)
         if(guest_in_time == null || guest_in_time == '') {
-            alert('请选择时间')
+            layer.msg('请选择时间')
             return
         }
 
@@ -33,7 +33,7 @@ $(function () {
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                alert(data)
+                layer.msg(data)
                 window.location.href='/home'
             },
             error: function (e) {
@@ -51,7 +51,7 @@ $(function () {
         var guest_in_room_id = $('#guest-in-room-id-hidden').val()
         console.log(guest_in_room_id)
         if(guest_in_time == null || guest_in_time == '') {
-            alert('请选择时间')
+            layer.msg('请选择时间')
             return
         }
         var datas = {
@@ -70,7 +70,44 @@ $(function () {
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                alert(data)
+                layer.msg(data)
+                window.location.href='/home'
+            },
+            error: function (e) {
+
+            }
+        })
+    })
+    // 预约登记
+    $('#guest-book-form').on('submit', function (e) {
+        e.preventDefault()
+        var guest_in_id = $('#guest-book-id').val()
+        var guest_in_name = $('#guest-book-name').val()
+        var guest_in_money = $('#guest-book-money').val()
+        var guest_in_time = $('#guest-book-time-hidden').val()
+        var guest_in_room_id = $('#guest-book-room-id-hidden').val()
+        console.log(guest_in_room_id)
+        if(guest_in_time == null || guest_in_time == '') {
+            layer.msg('请选择时间')
+            return
+        }
+        var datas = {
+            "room_id":guest_in_room_id,
+            "time":guest_in_time,
+            "username":guest_in_name,
+            "user_id":guest_in_room_id,
+            "guest_money":guest_in_money
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/user/book',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(datas),
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                layer.msg(data)
                 window.location.href='/home'
             },
             error: function (e) {
@@ -90,7 +127,7 @@ $(function () {
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                alert(data)
+                layer.msg(data)
                 window.location.href='/home'
             },
             error: function (e) {
@@ -111,7 +148,28 @@ $(function () {
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                alert(data)
+                layer.msg(data)
+                window.location.href='/home'
+            },
+            error: function (e) {
+
+            }
+        })
+    })
+    // 确认预定入住
+    $('#room-confirm-book-btn').on('click',function (event) {
+        var room_id = $('#room-confirm-book-room-id').val()
+        var room_confirm_book_money = $('#room-confirm-book-money').val()
+        $.ajax({
+            type: 'GET',
+            url: '/user/book/confirm',
+            contentType: 'application/json;charset=utf-8',
+            data: {room_id:room_id, money:room_confirm_book_money},
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                layer.msg(data)
                 window.location.href='/home'
             },
             error: function (e) {
@@ -122,7 +180,6 @@ $(function () {
     // 退房
     $('#guest-out-btn').on('click',function (event) {
         var room_id = $('#guest-out-room-id').val()
-        alert(room_id)
         $.ajax({
             type: 'GET',
             url: '/user/guest/out',
@@ -178,10 +235,22 @@ $(function () {
         var recipient = button.data('whatever') // Extract info from data-* attributes
         $('#room-broken-room-id').val(recipient)
     })
+    // 保修房间隐藏房间id
+    $('#room-confirm-book-model').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        $('#room-confirm-book-room-id').val(recipient)
+    })
     // 退房隐藏房间id
     $('#guest-out-model').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var recipient = button.data('whatever') // Extract info from data-* attributes
         $('#guest-out-room-id').val(recipient)
+    })
+    // 预定隐藏房间id
+    $('#guest-book-model').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        $('#guest-book-room-id-hidden').val(recipient)
     })
 })

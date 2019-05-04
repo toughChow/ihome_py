@@ -1,6 +1,9 @@
 package com.ctbu.guesthouse.domain;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "gh_log")
@@ -33,6 +36,10 @@ public class SysLog {
 
     @Column
     private Integer guestTime; // 住房天数
+
+    @Column
+    @CreationTimestamp
+    private Date ctTime;
 
     public SysLog() {
     }
@@ -127,5 +134,13 @@ public class SysLog {
     public SysLog setGuestTime(Integer guestTime) {
         this.guestTime = guestTime;
         return this;
+    }
+
+    public Date getCtTime() {
+        return ctTime;
+    }
+
+    public void setCtTime(Date ctTime) {
+        this.ctTime = ctTime;
     }
 }
