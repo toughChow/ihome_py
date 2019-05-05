@@ -68,9 +68,21 @@ public class RoomController {
         return roomService.pageConsumeDetail(pageNo);
     }
 
-    @GetMapping("/consume/gooods/list")
+    @GetMapping("/consume/goods/list")
     @ResponseBody
     public Object goodsList() {
         return roomService.getAllGoods();
     }
+
+    /**
+     * 新增消费记录
+     * @param map
+     * @return
+     */
+    @PostMapping("/consume/do")
+    @ResponseBody
+    public String doConsume(@RequestBody Map map) {
+        return roomService.doConsume(map);
+    }
+
 }

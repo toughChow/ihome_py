@@ -11,4 +11,6 @@ public interface RoomDao extends JpaRepository<Room, Long> {
     List<Room> findAllByPosition(Position postion);
 
     Room findByMdcValue(String mdcValue);
+
+    Room findByRoomCode(String num);
 }

@@ -69,6 +69,7 @@ public class Room {
         this.guestTime = null;
         this.status = 0;
         this.remark = null;
+        this.mdcValue = null;
     }
 
     public Long getId() {

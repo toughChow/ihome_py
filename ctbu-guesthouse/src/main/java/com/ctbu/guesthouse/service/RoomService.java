@@ -17,4 +17,6 @@ public interface RoomService {
     Object pageConsumeDetail(Integer pageNo);
 
     Object getAllGoods();
+
+    String doConsume(Map map);
 }

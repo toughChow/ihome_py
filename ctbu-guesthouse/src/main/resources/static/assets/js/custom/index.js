@@ -189,6 +189,7 @@ $(function () {
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
+                layer.msg(data)
                 window.location.href='/home'
             },
             error: function (e) {

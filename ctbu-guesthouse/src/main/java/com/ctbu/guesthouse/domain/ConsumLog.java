@@ -26,6 +26,15 @@ public class ConsumLog {
     @CreationTimestamp
     private Date ctTime;
 
+    public ConsumLog() {
+    }
+
+    public ConsumLog(String goodsId, String goodsNum, String mdcValue) {
+        this.goodsId = goodsId;
+        this.goodsNumber = goodsNum;
+        this.mdcValue = mdcValue;
+    }
+
     public Long getId() {
         return id;
     }
