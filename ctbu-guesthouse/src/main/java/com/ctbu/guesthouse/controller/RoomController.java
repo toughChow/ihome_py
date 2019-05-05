@@ -46,6 +46,12 @@ public class RoomController {
         return roomService.pageLogDetail(pageNo);
     }
 
+    @GetMapping("/money/total")
+    @ResponseBody
+    public Object moneyTotal() {
+        return roomService.findTotalIncom();
+    }
+
     @GetMapping("/log")
     public String log(ModelMap modelMap) {
         return "/room/log";
@@ -54,5 +60,17 @@ public class RoomController {
     @GetMapping("/consume")
     public String consume(ModelMap modelMap) {
         return "/room/consume";
+    }
+
+    @GetMapping("/consume/detail")
+    @ResponseBody
+    public Object consumeDetail(@RequestParam(name = "pn", defaultValue = "0") Integer pageNo) {
+        return roomService.pageConsumeDetail(pageNo);
+    }
+
+    @GetMapping("/consume/gooods/list")
+    @ResponseBody
+    public Object goodsList() {
+        return roomService.getAllGoods();
     }
 }

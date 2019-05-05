@@ -24,13 +24,16 @@
             <div class="content">
                 <div class="invoice-wrapper rounded border bg-white py-5 px-3 px-md-4 px-lg-5">
                     <div class="d-flex justify-content-between">
-                        <h2 class="text-dark font-weight-medium">入住日志</h2>
+                        <h2 class="text-dark font-weight-medium">消费管理</h2>
                         <div class="btn-group">
                             <button class="btn btn-sm btn-secondary">
                                 <i class="mdi mdi-content-save"></i> Save
                             </button>
-                            <button class="btn btn-sm btn-secondary">
-                                <i class="mdi mdi-printer"></i> Print
+                            <button type="button" class="btn btn-sm btn-primary"
+                                    data-toggle="modal"
+                                    data-target="#room-update-model">
+                                <i class="mdi mdi-printer"></i>
+                                新增
                             </button>
                         </div>
                     </div>
@@ -39,13 +42,9 @@
                         <tr>
                             <th>#</th>
                             <th>房间号</th>
-                            <th>房间价格</th>
-                            <th>客人姓名</th>
-                            <th>客人ID</th>
-                            <th>入住天数</th>
-                            <th>消费金额</th>
-                            <th>入住时间</th>
-                            <th>离店时间</th>
+                            <th>商品名称</th>
+                            <th>商品数量</th>
+                            <th>消费时间</th>
                         </tr>
                         </thead>
                         <tbody id="table-detail-data">
@@ -91,11 +90,16 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="room-update-roomname">房间名称</label>
-                                    <input type="text" class="form-control" id="room-update-roomname"
-                                           placeholder="房间名称" value="" required>
+                                    <label for="room-update-roomname">商品名称</label>
+                                    <select class="form-control" id="room-update-roomname">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
                                     <div class="invalid-feedback">
-                                        请输入房间名称!
+                                        请选择商品!
                                     </div>
                                     <div class="valid-feedback">
                                         checked!
@@ -104,11 +108,11 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="room-update-price">价格</label>
+                                    <label for="room-update-price">数量</label>
                                     <input type="text" class="form-control" id="room-update-price"
-                                           placeholder="价格" value="" required>
+                                           placeholder="数量" value="" required>
                                     <div class="invalid-feedback">
-                                        请输入价格!
+                                        请输入数量!
                                     </div>
                                     <div class="valid-feedback">
                                         checked!

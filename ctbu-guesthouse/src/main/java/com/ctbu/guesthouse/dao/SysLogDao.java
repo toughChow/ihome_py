@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface SysLogDao extends JpaRepository<SysLog, Long>, PagingAndSortingRepository<SysLog, Long> {
+    SysLog findByMdcValue(String mdcValue);
+
 }

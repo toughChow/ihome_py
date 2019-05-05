@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface RoomDao extends JpaRepository<Room, Long> {
     List<Room> findAllByPosition(Position postion);
+
+    Room findByMdcValue(String mdcValue);
 }

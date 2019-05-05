@@ -38,17 +38,22 @@ $(function () {
                 })
                 $('#table-detail-data').html(html)
                 console.log(data)
+
+                var pages = data.totalPages;
+                var count = data.totalElements + 5
                 layui.use('laypage', function(){
                     var laypage = layui.laypage;
                     //执行一个laypage实例
                     laypage.render({
                         elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-                        ,count: data.totalElements //数据总数，从服务端得到
+                        ,pages: pages
+                        ,count:  count//数据总数，从服务端得到
+                        ,curr: data.number+1
                         ,jump: function(obj,first){
                             //debugger;
                             if(!first){
                                 console.log(obj)
-                                getMoneyDetail (obj.curr);
+                                getMoneyDetail (obj.curr-1);
                             }
                         }
                     });

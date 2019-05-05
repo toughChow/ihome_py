@@ -4,6 +4,36 @@ $(function () {
     var token = $("meta[name='_csrf']").attr("content");
     getMoneyDetail(0)
 
+
+    // 入住获取隐藏房间id
+    $('#room-update-model').on('show.bs.modal', function (event) {
+        // var button = $(event.relatedTarget) // Button that triggered the modal
+        // var recipient = button.data('whatever') // Extract info from data-* attributes
+        // var modal = $(this)
+        // $('#guest-in-room-id-hidden').val(recipient)
+
+        // 获取商品
+        function getMoneyTotal() {
+            $.ajax({
+                type: 'GET',
+                url: '/room/consume/goods/list',
+                contentType: 'application/json;charset=utf-8',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+                    console.log(data)
+                    var total = data
+                    $('.total-salary').html(total)
+                },
+                error: function (e) {
+
+                }
+            })
+        }
+
+    })
+
     // 获取数据
     function getMoneyDetail(pn) {
         var loadIndex = layer.load()
@@ -11,7 +41,7 @@ $(function () {
             pn = 0
         $.ajax({
             type: 'GET',
-            url: '/room/money/detail',
+            url: '/room/consume/detail',
             contentType: 'application/json;charset=utf-8',
             data: {pn: pn},
             beforeSend: function (xhr) {
@@ -28,27 +58,28 @@ $(function () {
                 data.content.forEach((item)=>{
                     html += '<tr></tr><td>'+ item.id+'</td>' +
                     '<td>'+ item.roomCode +'</td>' +
-                    '<td>'+ item.price +'</td>' +
-                    '<td>'+ item.guestName +'</td>' +
-                    '<td>'+ item.guestId +'</td>' +
-                    '<td>'+ item.guestTime +'</td>' +
-                    '<td>'+ item.guestPrice +'</td>' +
-                    '<td>'+ item.startTime+'</td>' +
-                    '<td>'+ item.endTime+'</td></tr>'
-                })
+                    '<td>'+ item.goodsName +'</td>' +
+                    '<td>'+ item.goodsNumber +'</td>' +
+                    '<td>'+ item.ctTime +'</td></tr>'
+            })
                 $('#table-detail-data').html(html)
                 console.log(data)
+
+                var pages = data.totalPages;
+                var count = data.totalElements + 5
                 layui.use('laypage', function(){
                     var laypage = layui.laypage;
                     //执行一个laypage实例
                     laypage.render({
                         elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-                        ,count: data.totalElements //数据总数，从服务端得到
+                        ,pages: pages
+                        ,count:  count//数据总数，从服务端得到
+                        ,curr: data.number+1
                         ,jump: function(obj,first){
                             //debugger;
                             if(!first){
                                 console.log(obj)
-                                getMoneyDetail (obj.curr);
+                                getMoneyDetail (obj.curr-1);
                             }
                         }
                     });
@@ -59,4 +90,6 @@ $(function () {
             }
         })
     }
+
+
 })

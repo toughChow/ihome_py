@@ -1,12 +1,8 @@
 package com.ctbu.guesthouse.service.impl;
 
-import com.ctbu.guesthouse.dao.PositionDao;
-import com.ctbu.guesthouse.dao.RoomDao;
-import com.ctbu.guesthouse.dao.SysLogDao;
-import com.ctbu.guesthouse.domain.Position;
-import com.ctbu.guesthouse.domain.Room;
-import com.ctbu.guesthouse.domain.SysLog;
-import com.ctbu.guesthouse.domain.User;
+import com.ctbu.guesthouse.dao.*;
+import com.ctbu.guesthouse.domain.*;
+import com.ctbu.guesthouse.dto.ConsumLogDto;
 import com.ctbu.guesthouse.dto.SysLogDto;
 import com.ctbu.guesthouse.service.RoomService;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -28,6 +25,10 @@ public class RoomServiceImpl implements RoomService {
     PositionDao positionDao;
     @Autowired
     SysLogDao sysLogDao;
+    @Autowired
+    ConsumLogDao consumLogDao;
+    @Autowired
+    GoodsDao goodsDao;
 
     @Override
     public List<Room> findAll(Integer posId) {
@@ -71,7 +72,59 @@ public class RoomServiceImpl implements RoomService {
             sysLogDto.setRoomCode(room.getRoomCode());
             sysLogDtos.add(sysLogDto);
         });
-        return new PageImpl<>(sysLogDtos);
+        return new PageImpl<>(sysLogDtos,pageable,all.getTotalElements());
 //        return all;
+    }
+
+    @Override
+    public Object findTotalIncom() {
+        Float total = 0f;
+        List<SysLog> all = sysLogDao.findAll();
+        for (SysLog sysLog : all) {
+            total += sysLog.getGuestPrice();
+        }
+        return total;
+    }
+
+    @Override
+    public Object pageConsumeDetail(Integer pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, 5);
+
+        Page<ConsumLog> consumLogsPage = consumLogDao.findAll(pageable);
+        List<ConsumLog> content = consumLogsPage.getContent();
+
+        List<ConsumLogDto> sysLogDtos = new ArrayList<>();
+        content.forEach(po -> {
+            ConsumLogDto consumLogDto = new ConsumLogDto();
+            String mdcValue = po.getMdcValue();
+
+            Goods goods = goodsDao.findById(Long.valueOf(po.getGoodsId())).get();
+
+            // 获取房间号
+            SysLog sysLog = sysLogDao.findByMdcValue(mdcValue);
+            Room room = null;
+            if(!Objects.isNull(sysLog)) {
+                Long roomId = sysLog.getRoomId();
+                room = roomDao.findById(roomId).get();
+            } else {
+                room = roomDao.findByMdcValue(mdcValue);
+            }
+            String roomCode = room.getRoomCode();
+
+            BeanUtils.copyProperties(po, consumLogDto);
+
+            // 设置房间代码 商品名字
+            consumLogDto.setRoomCode(roomCode);
+            consumLogDto.setGoodsName(goods.getGoodsName());
+
+            sysLogDtos.add(consumLogDto);
+        });
+        return new PageImpl<>(sysLogDtos,pageable,consumLogsPage.getTotalElements());
+    }
+
+    @Override
+    public Object getAllGoods() {
+        List<Goods> all = goodsDao.findAll();
+        return all;
     }
 }

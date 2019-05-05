@@ -11,4 +11,10 @@ public interface RoomService {
     String updateRoom(Map map);
 
     Object pageLogDetail(Integer pageNo);
+
+    Object findTotalIncom();
+
+    Object pageConsumeDetail(Integer pageNo);
+
+    Object getAllGoods();
 }
