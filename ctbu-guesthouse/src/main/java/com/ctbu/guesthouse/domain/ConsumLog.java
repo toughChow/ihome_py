@@ -19,6 +19,9 @@ public class ConsumLog {
     @Column(length = 18)
     private String goodsNumber;
 
+    @Column(length = 18)
+    private String consumePrice;
+
     @Column(length = 55)
     private String mdcValue;
 
@@ -33,6 +36,21 @@ public class ConsumLog {
         this.goodsId = goodsId;
         this.goodsNumber = goodsNum;
         this.mdcValue = mdcValue;
+    }
+
+    public ConsumLog(String goodsId, String goodsNum, String consumePrice, String mdcValue) {
+        this.goodsId = goodsId;
+        this.goodsNumber = goodsNum;
+        this.consumePrice = consumePrice;
+        this.mdcValue = mdcValue;
+    }
+
+    public String getConsumePrice() {
+        return consumePrice;
+    }
+
+    public void setConsumePrice(String consumePrice) {
+        this.consumePrice = consumePrice;
     }
 
     public Long getId() {

@@ -62,10 +62,26 @@ public class RoomController {
         return "/room/consume";
     }
 
+    /**
+     * 收银管理
+     * @param pageNo
+     * @return
+     */
     @GetMapping("/consume/detail")
     @ResponseBody
     public Object consumeDetail(@RequestParam(name = "pn", defaultValue = "0") Integer pageNo) {
         return roomService.pageConsumeDetail(pageNo);
+    }
+
+    /**
+     * 入住日志
+     * @param pageNo
+     * @return
+     */
+    @GetMapping("/consume/details")
+    @ResponseBody
+    public Object consumeDetails(@RequestParam(name = "pn", defaultValue = "0") Integer pageNo) {
+        return roomService.pageConsumeDetails(pageNo);
     }
 
     @GetMapping("/consume/goods/list")
@@ -83,6 +99,18 @@ public class RoomController {
     @ResponseBody
     public String doConsume(@RequestBody Map map) {
         return roomService.doConsume(map);
+    }
+
+    /**
+     * 房屋重新使用
+     *
+     * @param rooId
+     * @return
+     */
+    @RequestMapping("/book/cancel")
+    @ResponseBody
+    public String cancelBook(@RequestParam(name = "room_id") Long rooId) {
+        return roomService.cancelBook(rooId);
     }
 
 }

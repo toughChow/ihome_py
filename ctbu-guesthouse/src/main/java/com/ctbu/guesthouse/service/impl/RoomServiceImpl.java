@@ -61,10 +61,16 @@ public class RoomServiceImpl implements RoomService {
         return "修改成功";
     }
 
+    /**
+     * 获取所有收银记录
+     * @param pageNo
+     * @return
+     */
     @Override
     public Object pageLogDetail(Integer pageNo) {
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageable = PageRequest.of(pageNo, 5);
+        // 获取房间收银分页记录
         Page<SysLog> all = sysLogDao.findAll(pageable);
         List<SysLog> content = all.getContent();
         List<SysLogDto> sysLogDtos = new ArrayList<>();
@@ -76,7 +82,30 @@ public class RoomServiceImpl implements RoomService {
             sysLogDto.setRoomCode(room.getRoomCode());
             sysLogDtos.add(sysLogDto);
         });
-        return new PageImpl<>(sysLogDtos, pageable, all.getTotalElements());
+
+        // 获取销售物品分页记录
+        Page<ConsumLog> all1 = consumLogDao.findAll(pageable);
+        List<ConsumLog> consumLogs = all1.getContent();
+        consumLogs.forEach(po -> {
+            SysLogDto sysLogDto = new SysLogDto();
+            String mdcValue = po.getMdcValue();
+            Room room = roomDao.findByMdcValue(mdcValue);
+
+            sysLogDto.setGuestPrice(Float.valueOf(po.getConsumePrice()));
+            sysLogDto.setCtTime(po.getCtTime());
+            sysLogDto.setId(po.getId());
+            if(!Objects.isNull(room)) {
+                sysLogDto.setRoomCode(room.getRoomCode());
+            } else {
+                SysLog sysLog = sysLogDao.findByMdcValue(mdcValue);
+                if(!Objects.isNull(sysLog)) {
+                    Room logRoom = roomDao.findById(sysLog.getRoomId()).get();
+                    sysLogDto.setRoomCode(logRoom.getRoomCode());
+                }
+            }
+            sysLogDtos.add(sysLogDto);
+        });
+        return new PageImpl<>(sysLogDtos, pageable, all.getTotalElements()+all1.getTotalElements());
 //        return all;
     }
 
@@ -86,6 +115,10 @@ public class RoomServiceImpl implements RoomService {
         List<SysLog> all = sysLogDao.findAll();
         for (SysLog sysLog : all) {
             total += sysLog.getGuestPrice();
+        }
+        List<ConsumLog> all1 = consumLogDao.findAll();
+        for (ConsumLog consumLog : all1) {
+            total += Float.valueOf(consumLog.getConsumePrice());
         }
         return total;
     }
@@ -120,7 +153,7 @@ public class RoomServiceImpl implements RoomService {
             // 设置房间代码 商品名字
             consumLogDto.setRoomCode(roomCode);
             consumLogDto.setGoodsName(goods.getGoodsName());
-
+            consumLogDto.setConsumePrice(po.getConsumePrice());
             sysLogDtos.add(consumLogDto);
         });
         return new PageImpl<>(sysLogDtos, pageable, consumLogsPage.getTotalElements());
@@ -136,12 +169,61 @@ public class RoomServiceImpl implements RoomService {
     public String doConsume(Map map) {
         String roomCode = (String) map.get("room_code");
         String goodsId = (String) map.get("goods_id");
-        String goodsNum = (String) map.get("goods_num");
+        Integer goodsNum = Integer.valueOf((String) map.get("goods_num"));
+
+        Goods goods = goodsDao.findById(Long.valueOf(goodsId)).get();
+        Integer goodsNumber = Integer.valueOf(goods.getGoodsNumber());
+        Integer goodsPrice = Integer.valueOf(goods.getGoodsPrice());
+        Integer i = Integer.valueOf(goodsNumber) - goodsNum;
+        if (i < 0)
+            return "库存不足";
+        // 更新库存
+        goods.setGoodsNumber(i.toString());
+        goodsDao.saveAndFlush(goods);
+        // 存入价格
+        Integer comsumePrice = goodsPrice * goodsNum;
         Room room = roomDao.findByRoomCode(roomCode);
         if (room.getStatus() != 1)
             return "该房间无人入住";
-        ConsumLog consumLog = new ConsumLog(goodsId, goodsNum, room.getMdcValue());
+        ConsumLog consumLog = new ConsumLog(goodsId, goodsNum.toString(), comsumePrice.toString(), room.getMdcValue());
         consumLogDao.save(consumLog);
+        return "成功";
+    }
+
+    @Override
+    public Object pageConsumeDetails(Integer pageNo) {
+//        Sort sort = new Sort(Sort.Direction.DESC, "createTime");
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        Page<SysLog> all = sysLogDao.findAll(pageable);
+        List<SysLog> content = all.getContent();
+        List<SysLogDto> sysLogDtos = new ArrayList<>();
+        content.forEach(po -> {
+            SysLogDto sysLogDto = new SysLogDto();
+            Long roomId = po.getRoomId();
+            Room room = roomDao.findById(roomId).get();
+            BeanUtils.copyProperties(po, sysLogDto);
+            sysLogDto.setRoomCode(room.getRoomCode());
+
+            String mdcValue = po.getMdcValue();
+            List<ConsumLog>  consumLogs = consumLogDao.findByMdcValue(mdcValue);
+            Float guestPrice = sysLogDto.getGuestPrice();
+            for (ConsumLog consumLog : consumLogs) {
+                guestPrice += Float.valueOf(consumLog.getConsumePrice());
+            }
+            sysLogDto.setGuestPrice(guestPrice);
+
+            sysLogDtos.add(sysLogDto);
+        });
+        return new PageImpl<>(sysLogDtos, pageable, all.getTotalElements());
+//        return all;
+    }
+
+    @Override
+    public String cancelBook(Long rooId) {
+        Room room = roomDao.findById(rooId).get();
+        room.initRoom();
+        room.setStatus(0);
+        roomDao.saveAndFlush(room);
         return "成功";
     }
 }

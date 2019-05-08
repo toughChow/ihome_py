@@ -43,6 +43,7 @@ $(function () {
                     '<td>' + item.roomCode + '</td>' +
                     '<td>' + item.goodsName + '</td>' +
                     '<td>' + item.goodsNumber + '</td>' +
+                    '<td>' + item.consumePrice + '</td>' +
                     '<td>' + item.ctTime + '</td></tr>'
             })
                 $('#table-detail-data').html(html)

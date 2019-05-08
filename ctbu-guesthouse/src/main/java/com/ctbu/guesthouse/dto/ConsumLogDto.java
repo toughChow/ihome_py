@@ -7,6 +7,7 @@ public class ConsumLogDto implements Serializable{
     private Long id;
     private String goodsId;
     private String goodsNumber;
+    private String consumePrice;
     private String mdcValue;
     private Date ctTime;
 
@@ -38,6 +39,14 @@ public class ConsumLogDto implements Serializable{
     public ConsumLogDto setId(Long id) {
         this.id = id;
         return this;
+    }
+
+    public String getConsumePrice() {
+        return consumePrice;
+    }
+
+    public void setConsumePrice(String consumePrice) {
+        this.consumePrice = consumePrice;
     }
 
     public String getGoodsId() {

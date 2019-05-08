@@ -11,7 +11,7 @@ $(function () {
             pn = 0
         $.ajax({
             type: 'GET',
-            url: '/room/money/detail',
+            url: '/room/consume/details',
             contentType: 'application/json;charset=utf-8',
             data: {pn: pn},
             beforeSend: function (xhr) {

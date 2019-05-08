@@ -197,6 +197,26 @@ $(function () {
             }
         })
     })
+    // 取消预约
+    $('#room-cancel-book-btn').on('click',function (event) {
+        var room_id = $('#room-cancel-book-id').val()
+        $.ajax({
+            type: 'GET',
+            url: '/room/book/cancel',
+            contentType: 'application/json;charset=utf-8',
+            data: {room_id:room_id},
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                layer.msg(data)
+                window.location.href='/home'
+            },
+            error: function (e) {
+
+            }
+        })
+    })
 
 
     // 位置选择按钮样式
@@ -253,5 +273,11 @@ $(function () {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var recipient = button.data('whatever') // Extract info from data-* attributes
         $('#guest-book-room-id-hidden').val(recipient)
+    })
+    // 取消预约隐藏房间id
+    $('#room-cancel-book-model').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        $('#room-cancel-book-id').val(recipient)
     })
 })

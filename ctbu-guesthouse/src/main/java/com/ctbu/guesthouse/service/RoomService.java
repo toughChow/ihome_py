@@ -19,4 +19,8 @@ public interface RoomService {
     Object getAllGoods();
 
     String doConsume(Map map);
+
+    Object pageConsumeDetails(Integer pageNo);
+
+    String cancelBook(Long rooId);
 }
