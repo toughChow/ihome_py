@@ -11,10 +11,11 @@ import org.springframework.data.domain.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.*;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -71,7 +72,12 @@ public class RoomServiceImpl implements RoomService {
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageable = PageRequest.of(pageNo, 5);
         // 获取房间收银分页记录
-        Page<SysLog> all = sysLogDao.findAll(pageable);
+        Page<SysLog> all = sysLogDao.findAll((Root<SysLog> root,CriteriaQuery<?> cq, CriteriaBuilder cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.isNull(root.get("isDeleted"))); // 未被删除的
+            return cb.and(predicates.toArray(new Predicate[]{}));
+        }, pageable);
+
         List<SysLog> content = all.getContent();
         List<SysLogDto> sysLogDtos = new ArrayList<>();
         content.forEach(po -> {
@@ -84,7 +90,12 @@ public class RoomServiceImpl implements RoomService {
         });
 
         // 获取销售物品分页记录
-        Page<ConsumLog> all1 = consumLogDao.findAll(pageable);
+        Page<ConsumLog> all1 = consumLogDao.findAll((Root<ConsumLog> root,CriteriaQuery<?> cq, CriteriaBuilder cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.isNull(root.get("isDeleted"))); // 未被删除的
+            return cb.and(predicates.toArray(new Predicate[]{}));
+        }, pageable);
+
         List<ConsumLog> consumLogs = all1.getContent();
         consumLogs.forEach(po -> {
             SysLogDto sysLogDto = new SysLogDto();
@@ -224,6 +235,22 @@ public class RoomServiceImpl implements RoomService {
         room.initRoom();
         room.setStatus(0);
         roomDao.saveAndFlush(room);
+        return "成功";
+    }
+
+    @Override
+    public Object deleteLog(Long id, Date time) {
+        SysLog sysLog = sysLogDao.findByIdAndCtTime(id, time);
+        if(Objects.isNull(sysLog)) {
+            ConsumLog consumeLog = consumLogDao.findByIdAndCtTime(id, time);
+            if(!Objects.isNull(consumeLog)) {
+                consumeLog.setIsDeleted(1);
+                consumLogDao.save(consumeLog);
+            }
+        } else {
+            sysLog.setIsDeleted(1);
+            sysLogDao.save(sysLog);
+        }
         return "成功";
     }
 }

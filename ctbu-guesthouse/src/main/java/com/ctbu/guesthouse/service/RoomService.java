@@ -2,6 +2,7 @@ package com.ctbu.guesthouse.service;
 
 import com.ctbu.guesthouse.domain.Room;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +24,6 @@ public interface RoomService {
     Object pageConsumeDetails(Integer pageNo);
 
     String cancelBook(Long rooId);
+
+    Object deleteLog(Long id, Date time);
 }

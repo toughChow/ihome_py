@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   /*======== 1. JEKYLL INSTANT SEARCH ========*/
 
-  SimpleJekyllSearch.init({
+  /*SimpleJekyllSearch.init({
     searchInput: document.getElementById('search-input'),
     resultsContainer: document.getElementById('search-results'),
     dataSource: '/assets/data/search.json',
@@ -28,7 +28,7 @@ $(document).ready(function() {
     noResultsText: '<li>No results found</li>',
     limit: 10,
     fuzzy: true,
-  });
+  });*/
 
 
   /*======== 2. SCROLLBAR CONTENT ========*/

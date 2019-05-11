@@ -29,11 +29,18 @@ $(function () {
                 data.content.forEach((item)=>{
                     html += '<tr></tr><td>'+ item.id+'</td>' +
                     '<td>'+ item.guestPrice +'</td>' +
-                    '<td>'+ new Date(item.ctTime) +'</td></tr>'
+                    '<td>'+ new Date(item.ctTime) +'</td>' +
+                    '<td><button type="button" class="mb-1 btn btn-danger btn-sm"\n' +
+                        'data-toggle="modal"\n' +
+                        'data-target="#room-cancel-book-model"\n' +
+                        'data-whatevercttime="'+item.ctTime+'"' +
+                        'data-whatever="'+item.id+'">删除\n' +
+                        '</button></td></tr>'
                 })
                 $('#table-detail-data').html(html)
                 console.log(data)
 
+                showfun()
 
                 var pages = data.totalPages;
                 var count = data.totalElements + 5
@@ -80,4 +87,44 @@ $(function () {
             }
         })
     }
+
+
+    // 取消预约隐藏房间id
+    function showfun() {
+        $('#room-cancel-book-model').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            var recipientTime = button.data('whatevercttime') // Extract info from data-* attributes
+            $('#logId').val(recipient)
+            $('#logTime').val(recipientTime)
+        })
+    }
+
+    $('#room-cancel-book-btn').on('click',function () {
+        var id = $('#logId').val()
+        var time = $('#logTime').val()
+
+        var timeStamp = new Date(time).getTime()
+        console.log(timeStamp)
+        var datas = {
+            id: id,
+            time: timeStamp
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/room/log/delete',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(datas),
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                layer.msg(data)
+                setTimeout(function() {window.location.href='/room/money'},1500);
+            },
+            error: function (e) {
+
+            }
+        })
+    })
 })

@@ -41,6 +41,9 @@ public class SysLog {
     private String mdcValue;
 
     @Column
+    private Integer isDeleted;
+
+    @Column
     @CreationTimestamp
     private Date ctTime;
 
@@ -56,6 +59,14 @@ public class SysLog {
         this.startTime = startTime;
         this.endTime = endTime;
         this.guestTime = guestTime;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Long getId() {

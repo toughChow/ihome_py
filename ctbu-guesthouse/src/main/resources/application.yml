@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active:  test
+    active:  dev
 
   thymeleaf:
     prefix: classpath:/templates/

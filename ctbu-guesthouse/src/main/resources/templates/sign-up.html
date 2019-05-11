@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <head>
         <meta charset="utf-8"/>
@@ -38,6 +39,9 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="assets/plugins/nprogress/nprogress.js"></script>
+        <script th:src="@{/assets/plugins/jquery/jquery.min.js}"></script>
+        <script th:src="@{/assets/plugins/layui/layui.all.js}"></script>
+        <script th:src="@{/assets/plugins/layui/modules/layer.js}"></script>
     </head>
 
 </head>
@@ -63,11 +67,11 @@
                 </div>
                 <div class="card-body p-5">
                     <h4 class="text-dark mb-5">注册</h4>
-                    <form action="/reg">
+                    <form class="needs-validation" id="reg-form" action="/reg">
                         <div class="row">
                             <div class="form-group col-md-12 mb-4">
                                 <input type="text" class="form-control input-lg" id="name" aria-describedby="nameHelp"
-                                       placeholder="姓名">
+                                       placeholder="姓名" name="username" required>
                                 <div class="invalid-feedback">
                                     请输入姓名!
                                 </div>
@@ -77,7 +81,7 @@
                             </div>
                             <div class="form-group col-md-12 ">
                                 <input type="password" class="form-control input-lg" id="password"
-                                       placeholder="密码">
+                                       placeholder="密码" required>
                                 <div class="invalid-feedback">
                                     请输入密码!
                                 </div>
@@ -86,8 +90,8 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12 ">
-                                <input type="password" class="form-control input-lg" id="cpassword"
-                                       placeholder="确认密码">
+                                <input type="password" class="form-control input-lg" name="password" id="cpassword"
+                                       placeholder="确认密码" required>
                                 <div class="invalid-feedback">
                                     请输入确认!
                                 </div>
@@ -98,13 +102,13 @@
                             <div class="col-md-12">
                                 <div class="d-inline-block mr-3">
                                     <label class="control control-checkbox">
-                                        <input type="checkbox"/>
+                                        <input type="checkbox" id="reg-checkbox"/>
                                         <div class="control-indicator"></div>
                                         我已阅读协议并同意
                                     </label>
 
                                 </div>
-                                <button type="submit" class="btn btn-lg btn-primary btn-block mb-4">注册</button>
+                                <button type="button" id="submit-reg" class="btn btn-lg btn-primary btn-block mb-4">注册</button>
                                 <p>已经有了账号?
                                     <a class="text-blue" href="/login">登录</a>
                                 </p>
@@ -122,7 +126,30 @@
     </div>
 </div>
 <script>
-    (function() {
+
+    $('#submit-reg').on('click',function () {
+        var cpassword = $('#cpassword').val()
+        var password = $('#password').val()
+        var name = $('#name').val()
+        var check = $('#reg-checkbox').is(':checked')
+        console.log(check)
+        if(name == null || name == ''|| password == null || password == '' ||
+            cpassword == null || cpassword == '') {
+            layer.msg('信息不能为空')
+            return
+        }
+        if(!check) {
+            layer.msg('请同意相关协议')
+            return
+        }
+        if (cpassword !== password) {
+            layer.msg('密码不相同')
+            return
+        }
+
+        $('#reg-form').submit()
+    })
+    /*(function() {
         'use strict';
         window.addEventListener('load', function() {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -138,7 +165,7 @@
                 }, false);
             });
         }, false);
-    })();
+    })();*/
 </script>
 </body>
 </html>

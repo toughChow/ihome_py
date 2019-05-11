@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
 <body th:fragment="main-header">
     <!-- Header -->
     <header class="main-header " id="header">
@@ -13,11 +15,14 @@
         <div class="search-form d-none d-lg-inline-block">
             <div class="input-group">
                 <button type="button" name="search" id="search-btn" class="btn btn-flat">
+<!--                    <a id="search-btn-href" href="/home"><i class="mdi mdi-magnify"></i></a>-->
                     <i class="mdi mdi-magnify"></i>
                 </button>
-                <input type="text" name="query" id="search-input" class="form-control"
+            <form action="/search" id="search-form" method="POST">
+                <input type="text" name="condition" id="search-input" class="form-control"
                        placeholder="请输入房间编号."
                        autofocus autocomplete="off"/>
+            </form>
             </div>
             <div id="search-results-container">
                 <ul id="search-results"></ul>
@@ -87,7 +92,7 @@
                         <img src="/assets/img/user/u4.jpg" class="user-image" alt="User Image"/>
                         <span class="d-none d-lg-inline-block">程先森</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
+                    <ul class="dropdown-menu dropdown-menu-right worker-dropdown-menu">
                         <!-- User image -->
                         <li class="dropdown-header select-worker">
                             <img src="/assets/img/user/u4.jpg" class="img-circle" alt="User Image"/>
@@ -117,7 +122,15 @@
                                 <small class="pt-1">abdus@gmail.com</small>
                             </div>
                         </li>
-
+                        <li>
+                            <img src="/assets/img/user/u3.jpg" class="img-circle" alt="User Image"/>
+                            <form action="/logout" method="post">
+<!--                            <div class="d-inline-block">-->
+                                <input type="submit" value="注销" class="d-inline-block">
+<!--                                <p><a href="/logout">退出</a></p>-->
+<!--                            </div>-->
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>

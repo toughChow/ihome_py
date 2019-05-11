@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +48,30 @@ public class RoomController {
     @ResponseBody
     public Object moneyDetail(@RequestParam(name = "pn", defaultValue = "0") Integer pageNo) {
         return roomService.pageLogDetail(pageNo);
+    }
+
+    /**
+     * 删除日志
+     * @return
+     */
+    @PostMapping("/log/delete")
+    @ResponseBody
+    public Object logDelete(@RequestBody Map map) {
+        Long id = Long.valueOf((String) map.get("id"));
+        Long time = (Long) map.get("time");
+        Date date = new Date(time);
+        return roomService.deleteLog(id, date);
+    }
+    /*
+     * 将时间戳转换为时间
+     */
+    public static String stampToDate(String s){
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long lt = new Long(s);
+        Date date = new Date(lt);
+        res = simpleDateFormat.format(date);
+        return res;
     }
 
     @GetMapping("/money/total")

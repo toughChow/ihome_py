@@ -5,6 +5,7 @@ import com.ctbu.guesthouse.domain.Room;
 import com.ctbu.guesthouse.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Date;
 import java.util.List;
 
 public interface RoomDao extends JpaRepository<Room, Long> {
@@ -13,4 +14,7 @@ public interface RoomDao extends JpaRepository<Room, Long> {
     Room findByMdcValue(String mdcValue);
 
     Room findByRoomCode(String num);
+
+    List<Room> findByRoomCodeLike(String s);
+
 }

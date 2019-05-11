@@ -26,6 +26,9 @@ public class ConsumLog {
     private String mdcValue;
 
     @Column
+    private Integer isDeleted; // 0 false 1 true
+
+    @Column
     @CreationTimestamp
     private Date ctTime;
 
@@ -43,6 +46,14 @@ public class ConsumLog {
         this.goodsNumber = goodsNum;
         this.consumePrice = consumePrice;
         this.mdcValue = mdcValue;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getConsumePrice() {

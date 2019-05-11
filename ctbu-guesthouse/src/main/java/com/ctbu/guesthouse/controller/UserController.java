@@ -1,17 +1,23 @@
 package com.ctbu.guesthouse.controller;
 
+import com.ctbu.guesthouse.dao.PositionDao;
 import com.ctbu.guesthouse.dao.RoomDao;
 import com.ctbu.guesthouse.dao.SysLogDao;
+import com.ctbu.guesthouse.dao.WorkerDao;
+import com.ctbu.guesthouse.domain.Position;
 import com.ctbu.guesthouse.domain.Room;
 import com.ctbu.guesthouse.domain.SysLog;
+import com.ctbu.guesthouse.domain.Worker;
 import com.ctbu.guesthouse.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,6 +31,10 @@ public class UserController {
     RoomDao roomDao;
     @Autowired
     SysLogDao sysLogDao;
+    @Autowired
+    WorkerDao workerDao;
+    @Autowired
+    PositionDao positionDao;
 
 
     /**
@@ -146,6 +156,19 @@ public class UserController {
         room.setStatus(0);
         roomDao.saveAndFlush(room);
         return "成功";
+    }
+
+    /**
+     * 获取工人信息
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/workers")
+    @ResponseBody
+    public Object workers() {
+        List<Worker> workers = workerDao.findAll();
+        return workers;
     }
 
     /**
